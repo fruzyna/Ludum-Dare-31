@@ -12,15 +12,16 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.snake.ld31.views.Game;
 import com.snake.ld31.views.Logo;
-import com.snake.ld31.views.Mainmenu;
+import com.snake.ld31.views.MainMenu;
 
-class Main implements KeyListener, Runnable
+public class Main implements KeyListener, Runnable
 {
 	private JFrame frame;
 	private Paint paint;
 	private Thread thread;
-	private View currentView;
+	public static View currentView;
 	private boolean running = true;
 	
 	private long lastTickTime = System.currentTimeMillis();
@@ -114,14 +115,14 @@ class Main implements KeyListener, Runnable
 		
 		}
 		
-		currentView = new Mainmenu();
+		currentView = new MainMenu();
 		
 		while (running)
 		{
 			long deltaTime = System.currentTimeMillis() - lastTickTime;
 			lastTickTime = System.currentTimeMillis();
 			
-			float deltaTimeFloat = ((float)System.currentTimeMillis( ) / 1000.0f);
+			float deltaTimeFloat = ((float)deltaTime / 1000.0f);
 			
 			onTick( deltaTimeFloat );
 			paint.repaint();
@@ -139,6 +140,11 @@ class Main implements KeyListener, Runnable
 		cleanup( );
 	}
 
+	public static void startGame()
+	{
+		currentView = new Game();
+	}
+	
 	public class Paint extends JPanel
 	{
 		private static final long serialVersionUID = -762335263483583884L;
@@ -148,22 +154,22 @@ class Main implements KeyListener, Runnable
 			Graphics2D draw = (Graphics2D)g;
 			draw.setColor(Color.WHITE);
 			draw.fillRect( 0, 0, getScrWidth( ), getScrHeight( ) );
-			currentView.draw(draw);
+			
+			if (currentView != null)
+				currentView.draw(draw);
 		}
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		currentView.keyPressed(arg0);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		currentView.keyReleased(arg0);
 	}
 
 	@Override

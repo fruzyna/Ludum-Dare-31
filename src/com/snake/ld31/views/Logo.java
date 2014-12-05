@@ -1,6 +1,7 @@
 package com.snake.ld31.views;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -38,6 +39,18 @@ public class Logo extends View
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e)
+	{
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e)
+	{
+		
 	}
 
 }
