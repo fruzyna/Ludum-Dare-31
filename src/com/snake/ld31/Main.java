@@ -10,15 +10,16 @@ import java.awt.event.KeyListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.snake.ld31.views.Game;
 import com.snake.ld31.views.Logo;
-import com.snake.ld31.views.Mainmenu;
+import com.snake.ld31.views.MainMenu;
 
-class Main implements KeyListener, Runnable
+public class Main implements KeyListener, Runnable
 {
 	JFrame frame;
 	Paint paint;
 	Thread thread;
-	View currentView;
+	static View currentView;
 	Boolean running = true;
 	
 	public static void main( String[] args )
@@ -54,7 +55,7 @@ class Main implements KeyListener, Runnable
 		{
 			e1.printStackTrace();
 		}
-		currentView = new Mainmenu();
+		currentView = new MainMenu();
 		while(running)
 		{
 			paint.repaint();
@@ -66,6 +67,11 @@ class Main implements KeyListener, Runnable
 		}
 	}
 
+	public static void startGame()
+	{
+		currentView = new Game();
+	}
+	
 	public class Paint extends JPanel
 	{
 		private static final long serialVersionUID = -762335263483583884L;
@@ -82,15 +88,13 @@ class Main implements KeyListener, Runnable
 	@Override
 	public void keyPressed(KeyEvent arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		currentView.keyPressed(arg0);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0)
 	{
-		// TODO Auto-generated method stub
-		
+		currentView.keyReleased(arg0);
 	}
 
 	@Override
