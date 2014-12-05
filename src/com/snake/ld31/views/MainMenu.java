@@ -9,8 +9,6 @@ import com.snake.ld31.Main;
 
 public class MainMenu extends View
 {
-	Main main;
-	
 	@Override
 	public void draw(Graphics2D draw)
 	{
@@ -18,20 +16,18 @@ public class MainMenu extends View
 		
 		String gameName = "PUT GAME NAME HERE!";
 		String tell = "Press Enter to Play!";
-		draw.drawString(gameName, main.centerText(gameName), 50);
-		draw.drawString(tell,  main.centerText(tell), 250);
+		draw.drawString(gameName, Main.instance.centerText(gameName), 50);
+		draw.drawString(tell, Main.instance.centerText(tell), 250);
 	}
 
 	@Override
 	public void run( float deltaTime )
 	{
-		main = Main.instance;
 	}
 
 	@Override
 	public void init()
 	{
-		main = Main.instance;
 	}
 
 	@Override

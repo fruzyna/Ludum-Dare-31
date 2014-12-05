@@ -52,7 +52,7 @@ public class Main implements KeyListener, Runnable
 	
 	public int centerText(String s)
 	{
-		return  getScrWidth()/2 - (getStringWidth(s)/2);
+		return getScrWidth()/2 - (getStringWidth(s)/2);
 	}
 	
 	public Main()
@@ -101,6 +101,8 @@ public class Main implements KeyListener, Runnable
 		
 		thread = new Thread(this);
 		thread.start();
+		
+		instance = this;
 	}
 	
 	private void cleanup( )

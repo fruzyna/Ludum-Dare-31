@@ -16,14 +16,13 @@ public class Logo extends View
 {
 	private BufferedImage img;
 	private long createTime = System.currentTimeMillis( );
-	private Main main;
 	
 	@Override
 	public void draw(Graphics2D draw)
 	{
 		draw.drawImage(img, 0, 0, 500, 500, null);
 		draw.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-		draw.drawString("Presents", main.centerText("Presents"), 100);
+		draw.drawString("Presents", Main.instance.centerText("Presents"),100);
 	}
 
 	@Override
@@ -36,7 +35,6 @@ public class Logo extends View
 	@Override
 	public void init()
 	{
-		main = Main.instance;
 	    try
 		{
 			img = ImageIO.read(new File("res/logo.png"));
