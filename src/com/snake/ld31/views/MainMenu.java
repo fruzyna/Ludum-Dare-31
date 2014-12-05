@@ -9,26 +9,29 @@ import com.snake.ld31.Main;
 
 public class MainMenu extends View
 {
-
+	Main main;
+	
 	@Override
 	public void draw(Graphics2D draw)
 	{
 		draw.setColor( Color.BLACK );
 		
-		draw.drawString("PUT GAME NAME HERE!", 200, 50);
-		draw.drawString("Press Enter to Play", 200, 250);
+		String gameName = "PUT GAME NAME HERE!";
+		String tell = "Press Enter to Play!";
+		draw.drawString(gameName, main.centerText(gameName), 50);
+		draw.drawString(tell,  main.centerText(tell), 250);
 	}
 
 	@Override
 	public void run( float deltaTime )
 	{
-		
+		main = Main.instance;
 	}
 
 	@Override
 	public void init()
 	{
-		
+		main = Main.instance;
 	}
 
 	@Override

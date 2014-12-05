@@ -2,6 +2,7 @@ package com.snake.ld31;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
@@ -41,6 +42,17 @@ public class Main implements KeyListener, Runnable
 	public int getScrHeight( )
 	{
 		return 500;
+	}
+	
+	public int getStringWidth(String s)
+	{
+		FontMetrics metrics = paint.getFontMetrics(paint.getFont());
+		return metrics.stringWidth(s);
+	}
+	
+	public int centerText(String s)
+	{
+		return  getScrWidth()/2 - (getStringWidth(s)/2);
 	}
 	
 	public Main()
@@ -108,7 +120,6 @@ public class Main implements KeyListener, Runnable
 	{
 		paint.repaint();
 		
-		/*
 		try
 		{
 			Thread.sleep(2500);
@@ -119,7 +130,7 @@ public class Main implements KeyListener, Runnable
 		
 		}
 		
-		currentView = new MainMenu(); */
+		currentView = new MainMenu(); 
 		
 		while (running)
 		{

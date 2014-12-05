@@ -1,5 +1,6 @@
 package com.snake.ld31.views;
 
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -15,13 +16,14 @@ public class Logo extends View
 {
 	private BufferedImage img;
 	private long createTime = System.currentTimeMillis( );
+	private Main main;
 	
 	@Override
 	public void draw(Graphics2D draw)
 	{
 		draw.drawImage(img, 0, 0, 500, 500, null);
-		//TODO find the string length and center the text plus make it much bigger
-		draw.drawString("Presents", 225, 100);
+		draw.setFont(new Font("TimesRoman", Font.PLAIN, 50));
+		draw.drawString("Presents", main.centerText("Presents"), 100);
 	}
 
 	@Override
@@ -34,6 +36,7 @@ public class Logo extends View
 	@Override
 	public void init()
 	{
+		main = Main.instance;
 	    try
 		{
 			img = ImageIO.read(new File("res/logo.png"));
