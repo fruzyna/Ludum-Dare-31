@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,55 +17,126 @@ import com.snake.ld31.views.Mainmenu;
 
 class Main implements KeyListener, Runnable
 {
-	JFrame frame;
-	Paint paint;
-	Thread thread;
-	View currentView;
-	Boolean running = true;
+	private JFrame frame;
+	private Paint paint;
+	private Thread thread;
+	private View currentView;
+	private boolean running = true;
+	
+	private long lastTickTime = System.currentTimeMillis();
 	
 	public static void main( String[] args )
 	{
 		new Main();
 	}
+	
+	public int getScrWidth( )
+	{
+		return 500;
+	}
 
+	public int getScrHeight( )
+	{
+		return 500;
+	}
+	
 	public Main()
 	{
 		frame = new JFrame("Ludum Dare 31");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addKeyListener(this);
+		
+		frame.addWindowListener( new WindowListener()
+		{
+			@Override
+			public void windowActivated(WindowEvent e) { }
+
+			@Override
+			public void windowClosed(WindowEvent e){ }
+
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				running = false;
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) { }
+
+			@Override
+			public void windowDeiconified(WindowEvent e) { }
+
+			@Override
+			public void windowIconified(WindowEvent e) { }
+
+			@Override
+			public void windowOpened(WindowEvent e) { }
+		});
+		
 		paint = new Paint();
-		paint.setPreferredSize(new Dimension(500, 500));
+		paint.setPreferredSize(new Dimension(getScrWidth( ), getScrHeight( )));
+		
 		frame.setResizable(false);
 		frame.add(paint);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		
 		currentView = new Logo();
+		
 		thread = new Thread(this);
 		thread.start();
+	}
+	
+	private void cleanup( )
+	{
+		frame.setVisible( false );
+		frame.dispose( );
+	}
+	
+	public void onTick( float deltaTime )
+	{
+		
 	}
 	
 	@Override
 	public void run()
 	{
 		paint.repaint();
+		
 		try
 		{
 			Thread.sleep(2500);
-		} catch (InterruptedException e1)
+		} 
+		catch (InterruptedException e1)
 		{
 			e1.printStackTrace();
+		
 		}
+		
 		currentView = new Mainmenu();
-		while(running)
+		
+		while (running)
 		{
+			long deltaTime = System.currentTimeMillis() - lastTickTime;
+			lastTickTime = System.currentTimeMillis();
+			
+			float deltaTimeFloat = ((float)System.currentTimeMillis( ) / 1000.0f);
+			
+			onTick( deltaTimeFloat );
 			paint.repaint();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
+			
+			try 
+			{
+				Thread.sleep(1);
+			} 
+			catch (InterruptedException e) 
+			{
 				e.printStackTrace();
 			}
 		}
+		
+		cleanup( );
 	}
 
 	public class Paint extends JPanel
@@ -74,7 +147,7 @@ class Main implements KeyListener, Runnable
 		{	
 			Graphics2D draw = (Graphics2D)g;
 			draw.setColor(Color.WHITE);
-			draw.fillRect(0,0,500,500);
+			draw.fillRect( 0, 0, getScrWidth( ), getScrHeight( ) );
 			currentView.draw(draw);
 		}
 	}
