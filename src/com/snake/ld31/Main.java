@@ -18,10 +18,12 @@ import com.snake.ld31.views.MainMenu;
 
 public class Main implements KeyListener, Runnable
 {
+	public static Main instance;
+	public static View currentView;
+	
 	private JFrame frame;
 	private Paint paint;
 	private Thread thread;
-	public static View currentView;
 	private boolean running = true;
 	
 	private long lastTickTime = System.currentTimeMillis();
@@ -97,7 +99,8 @@ public class Main implements KeyListener, Runnable
 	
 	public void onTick( float deltaTime )
 	{
-		
+		if (currentView != null)
+			currentView.run( deltaTime );
 	}
 	
 	@Override
@@ -105,6 +108,7 @@ public class Main implements KeyListener, Runnable
 	{
 		paint.repaint();
 		
+		/*
 		try
 		{
 			Thread.sleep(2500);
@@ -115,7 +119,7 @@ public class Main implements KeyListener, Runnable
 		
 		}
 		
-		currentView = new MainMenu();
+		currentView = new MainMenu(); */
 		
 		while (running)
 		{

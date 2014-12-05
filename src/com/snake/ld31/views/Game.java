@@ -16,7 +16,7 @@ public class Game extends View
 	}
 
 	@Override
-	public void run()
+	public void run( float deltaTime )
 	{
 		// TODO Auto-generated method stub
 		

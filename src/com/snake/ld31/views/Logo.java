@@ -8,11 +8,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import com.snake.ld31.Main;
 import com.snake.ld31.View;
 
 public class Logo extends View
 {
-	BufferedImage img;
+	private BufferedImage img;
+	private long createTime = System.currentTimeMillis( );
 	
 	@Override
 	public void draw(Graphics2D draw)
@@ -23,9 +25,10 @@ public class Logo extends View
 	}
 
 	@Override
-	public void run()
+	public void run( float deltaTime )
 	{
-		
+		if (System.currentTimeMillis() > createTime + 2500)
+			Main.currentView = new MainMenu( );
 	}
 
 	@Override

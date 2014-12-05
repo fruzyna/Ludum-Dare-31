@@ -7,7 +7,7 @@ public abstract class View
 {
 	public abstract void draw(Graphics2D draw);
 	
-	public abstract void run();
+	public abstract void run( float deltaTime );
 	
 	public abstract void init();
 	

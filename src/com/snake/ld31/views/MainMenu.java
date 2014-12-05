@@ -20,7 +20,7 @@ public class MainMenu extends View
 	}
 
 	@Override
-	public void run()
+	public void run( float deltaTime )
 	{
 		
 	}
