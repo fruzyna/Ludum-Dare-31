@@ -23,6 +23,8 @@ public class Main implements KeyListener, Runnable
 	public static View currentView;
 	public static ImageLoader imgLoader;
 	
+	public static float ticks;
+	
 	private JFrame frame;
 	private Paint paint;
 	private Thread thread;
@@ -37,12 +39,12 @@ public class Main implements KeyListener, Runnable
 	
 	public int getScrWidth( )
 	{
-		return 500;
+		return 1024;
 	}
 
 	public int getScrHeight( )
 	{
-		return 500;
+		return 768;
 	}
 	
 	public int getStringWidth(String s, Graphics2D draw)
@@ -126,7 +128,7 @@ public class Main implements KeyListener, Runnable
 		
 		try
 		{
-			Thread.sleep(2500);
+			Thread.sleep(5);
 		} 
 		catch (InterruptedException e1)
 		{
@@ -142,6 +144,8 @@ public class Main implements KeyListener, Runnable
 			lastTickTime = System.currentTimeMillis();
 			
 			float deltaTimeFloat = ((float)deltaTime / 1000.0f);
+			
+			ticks += deltaTimeFloat;
 			
 			onTick( deltaTimeFloat );
 			paint.repaint();
