@@ -163,7 +163,7 @@ public class Main implements KeyListener, Runnable, MouseListener
 			
 			try 
 			{
-				Thread.sleep(1);
+				Thread.sleep(5);
 			} 
 			catch (InterruptedException e) 
 			{
@@ -209,7 +209,7 @@ public class Main implements KeyListener, Runnable, MouseListener
 			
 			draw.setColor(Color.YELLOW);
 			draw.setFont(new Font("Arial", Font.PLAIN, 40));
-			draw.drawString(String.valueOf(1000/deltaTime), 10, 40);
+			//draw.drawString(String.valueOf( (float)(32 - deltaTime) * 1.875f ), 10, 40);
 		}
 	}
 	
