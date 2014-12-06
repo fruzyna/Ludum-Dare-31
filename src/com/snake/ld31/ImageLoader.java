@@ -54,9 +54,7 @@ public class ImageLoader
 			this.filename = filename;
 			
 			try 
-			{
-				System.out.println( "Loading " + filename );
-					
+			{		
 				imgData = ImageIO.read( new File( filename ) );
 			} 
 			catch (Exception e) 

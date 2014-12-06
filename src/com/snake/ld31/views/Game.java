@@ -16,6 +16,7 @@ import com.snake.ld31.View;
 public class Game extends View
 {
 	private BufferedImage grass;
+	private BufferedImage dirt;
 	private BufferedImage arrowLeft;
 	private BufferedImage arrowRight;
 	private BufferedImage arrowUp;
@@ -35,6 +36,7 @@ public class Game extends View
 		draw.setColor( skyColor );
 		draw.fillRect( 0, 0, Main.instance.getScrWidth(), Main.instance.getScrHeight() );
 		
+		//Draw Clouds
 		for (int i=0;i < 10;++i)
 		{
 			//disregard this ugly code plz
@@ -53,13 +55,14 @@ public class Game extends View
 			draw.drawImage( cloud, x, (int)( y + Math.sin(Main.ticks/5 + i) * 6), null );
 		}
 		
+		//Draw grid
 		for (int x=0;x < 31;++x)
 		{
 			for (int y=0;y < 64;++y)
 			{
 				RoomType t = rooms[x][y].getRoomType();
 				
-				if (t == RoomType.ROOM_AIR)
+				if (t == RoomType.ROOM_AIR && y != 62)
 					continue;
 				
 				int drawX = (int)Main.camera.getRasterX( x * 128 );
@@ -72,7 +75,7 @@ public class Game extends View
 				switch (t)
 				{
 				case ROOM_GRASS:
-					i = grass;
+					i = dirt;
 					break;
 				case ROOM_LOBBYBASE:
 					i = lobbyBase;
@@ -80,6 +83,9 @@ public class Game extends View
 				default:
 					i = null;
 				}
+				
+				if (y == 62 && t == RoomType.ROOM_AIR)
+					i = grass;
 				
 				if (i != null)
 					draw.drawImage( i, drawX, drawY, scale, scale, null );
@@ -97,6 +103,7 @@ public class Game extends View
 	public void init()
 	{
 		grass =			Main.imgLoader.load("grass.png");
+		dirt = 			Main.imgLoader.load("dirt.png");
 		arrowLeft = 	Main.imgLoader.load("arrow_left.png");
 		arrowRight = 	Main.imgLoader.load("arrow_right.png");
 		arrowUp	=		Main.imgLoader.load("arrow_up.png");
