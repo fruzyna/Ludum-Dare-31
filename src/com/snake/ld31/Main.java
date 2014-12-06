@@ -2,6 +2,7 @@ package com.snake.ld31;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -44,15 +45,15 @@ public class Main implements KeyListener, Runnable
 		return 500;
 	}
 	
-	public int getStringWidth(String s)
+	public int getStringWidth(String s, Graphics2D draw)
 	{
-		FontMetrics metrics = paint.getFontMetrics(paint.getFont());
+		FontMetrics metrics = paint.getFontMetrics(draw.getFont());
 		return metrics.stringWidth(s);
 	}
 	
-	public int centerText(String s)
+	public int centerText(String s, Graphics2D draw)
 	{
-		return getScrWidth()/2 - (getStringWidth(s)/2);
+		return getScrWidth()/2 - (getStringWidth(s, draw)/2);
 	}
 	
 	public Main()

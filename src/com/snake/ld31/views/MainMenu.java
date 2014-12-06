@@ -1,6 +1,7 @@
 package com.snake.ld31.views;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
@@ -16,8 +17,9 @@ public class MainMenu extends View
 		
 		String gameName = "PUT GAME NAME HERE!";
 		String tell = "Press Enter to Play!";
-		draw.drawString(gameName, Main.instance.centerText(gameName), 50);
-		draw.drawString(tell, Main.instance.centerText(tell), 250);
+		draw.setFont(new Font("TimesRoman", Font.PLAIN, 30));
+		draw.drawString(gameName, Main.instance.centerText(gameName, draw), 50);
+		draw.drawString(tell, Main.instance.centerText(tell, draw), 250);
 	}
 
 	@Override

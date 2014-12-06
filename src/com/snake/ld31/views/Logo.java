@@ -21,8 +21,8 @@ public class Logo extends View
 	public void draw(Graphics2D draw)
 	{
 		draw.drawImage(img, 0, 0, 500, 500, null);
-		draw.setFont(new Font("TimesRoman", Font.PLAIN, 50));
-		draw.drawString("Presents", Main.instance.centerText("Presents"),100);
+		draw.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+		draw.drawString("Presents", Main.instance.centerText("Presents", draw), 100);
 	}
 
 	@Override
