@@ -166,6 +166,8 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 			
 			ticks += deltaTimeFloat;
 			
+			camera.update( deltaTimeFloat );
+			
 			onTick( deltaTimeFloat );
 			paint.repaint();
 			

@@ -5,36 +5,90 @@ public class Camera
 	public float x,y;
 	public float scale;
 	
+	private float aX, aY;
+	private float aScale;
+	
 	public Camera( )
 	{
 		x = 0.0f;
 		y = 0.0f;
 		scale = 1.0f;
+		
+		aX = 0.0f;
+		aY = 0.0f;
+		aScale = 1.0f;
+	}
+	
+	public void update( float timestep )
+	{
+		aX += (x - aX) * timestep;
+		aY += (y - aY) * timestep;
+		
+		aScale += (scale - aScale) * timestep;
+	}
+	
+	public void set( )
+	{
+		aX = x;
+		aY = y;
+		aScale = scale;
+	}
+		
+	public float getScale( )
+	{
+		return aScale;
+	}
+	
+	public float getX( )
+	{
+		return aX;
+	}
+	
+	public float getY( )
+	{
+		return aY;
+	}
+	
+	public float width( )
+	{
+		return (float)Main.instance.getScrWidth( );
+	}
+	
+	public float height( )
+	{
+		return (float)Main.instance.getScrHeight( );
 	}
 	
 	public float getRasterX( float worldX )
-	{
-		return (worldX - x) * scale;
+	{	
+		return (worldX - aX) * aScale;
 	}
 	
 	public float getRasterY( float worldY )
 	{
-		return (worldY - y) * scale;
+		return (worldY - aY) * aScale;
 	}
 	
 	public float getWorldX( float screenX )
 	{
-		return (screenX + x) / scale;
+		return aX + (screenX / aScale);
 	}
 	
 	public float getWorldY( float screenY )
 	{
-		return (screenY + y) / scale;
+		return aY + (screenY / aScale);
 	}
 	
-	public void center( float x, float y )
+	public void setCameraRect( float centerX, float centerY, float width, float height )
 	{
-		this.x = x - Main.instance.getScrWidth( )/2;
-		this.y = y - Main.instance.getScrHeight( )/2;
+		this.x = centerX;
+		this.y = centerY;
+		
+		float w = width( ) / width;
+		float h = height( ) / height;
+		
+		float m = Math.min( h, w );
+		
+		scale = m;
 	}
 }
