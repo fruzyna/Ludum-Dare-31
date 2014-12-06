@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 
 import org.json.JSONObject;
 
@@ -78,6 +77,9 @@ public class IO
             {
                 sb.append(line);
             }
+            
+            br.close( );
+            
             return sb.toString();
         } catch (IOException e)
         {
