@@ -35,6 +35,8 @@ public class Game extends View
 	private BufferedImage lobbyEmpty;
 	private BufferedImage lobbyCouch;
 	
+	private BufferedImage elevator;
+	
 	private Color skyColor;
 	private Boolean menuOpen = false;
 	  
@@ -48,10 +50,12 @@ public class Game extends View
 		//Draw clouds
 		for (int i=0;i < 10;++i)
 		{
+			float scale = Main.camera.scale;
+			
 			//disregard this ugly code plz
 			int y = 60 + i * 50;
 			int x = (int)(Main.ticks * 10) + (int)(Math.sin(i) * Main.instance.getScrWidth( ));
-			x -= Math.floor(x / (Main.instance.getScrWidth( ) + cloud1.getWidth( ))) * (Main.instance.getScrWidth( ) + cloud1.getWidth( ));
+			x -= Math.floor(x / (Main.instance.getScrWidth( ) + (cloud1.getWidth( ) * scale))) * (Main.instance.getScrWidth( ) + (cloud1.getWidth( ) * scale));
 			x -= cloud1.getWidth( );
 			
 			BufferedImage cloud = null;
@@ -61,7 +65,7 @@ public class Game extends View
 				cloud = cloud2;
 			
 			
-			draw.drawImage( cloud, x, (int)( y + Math.sin(Main.ticks/5 + i) * 6), null );
+			draw.drawImage( cloud, x, (int)( y + Math.sin(Main.ticks/5 + i) * 6), (int)(256.0f * scale), (int)(128.0f * scale), null );
 		}
 		
 		//Draw grid
@@ -124,7 +128,7 @@ public class Game extends View
 	}
 	
 	@Override
-	public void run( float deltaTime ){ }
+	public void run( float deltaTime ){ /*Main.camera.scale = (float)(Math.sin(Main.ticks) + 1.0);*/ }
 
 	@Override
 	public void init()
@@ -142,37 +146,44 @@ public class Game extends View
 		lobbyEmpty =	Main.imgLoader.load("lobby_empty.png");
 		lobbyCouch =	Main.imgLoader.load("lobby_couch.png");
 		
+		elevator =		Main.imgLoader.load("elevator.png");
+		
 		skyColor = new Color( 142, 255, 253 );
 		
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );
 		Main.camera.x = 2112 - Main.instance.getScrWidth( ) / 2;
 		Main.camera.scale = 1.0f;
 		
-		DataContainer.worldWidth = 31;
-		DataContainer.worldHeight = 64;
-		DataContainer.rooms = new Room[31][64];
-		DataContainer.worldName = "world";
-		
-		for (int x = 0;x < DataContainer.worldWidth;++x)
+		if (!DataContainer.loaded)
 		{
-			for (int y = 0;y < DataContainer.worldHeight;++y)
+			DataContainer.worldWidth = 31;
+			DataContainer.worldHeight = 64;
+			DataContainer.rooms = new Room[31][64];
+			DataContainer.worldName = "world";
+			
+			for (int x = 0;x < DataContainer.worldWidth;++x)
 			{
-				RoomType t = RoomType.ROOM_AIR;
-				
-				if (y > 60)
-					t = RoomType.ROOM_GRASS;
-				
-				if (x == 16 && y == 60)
-					t = RoomType.ROOM_LOBBYBASE;
-				
-				if (x == 15 && y == 60)
-					t = RoomType.ROOM_LOBBYEXT;
-				
-				if (x == 17 && y == 60)
-					t = RoomType.ROOM_LOBBYEXT;
-				
-				DataContainer.rooms[x][y] = new Room( t );
+				for (int y = 0;y < DataContainer.worldHeight;++y)
+				{
+					RoomType t = RoomType.ROOM_AIR;
+					
+					if (y > 60)
+						t = RoomType.ROOM_GRASS;
+					
+					if (x == 16 && y == 60)
+						t = RoomType.ROOM_LOBBYBASE;
+					
+					if (x == 15 && y == 60)
+						t = RoomType.ROOM_LOBBYEXT;
+					
+					if (x == 17 && y == 60)
+						t = RoomType.ROOM_LOBBYEXT;
+					
+					DataContainer.rooms[x][y] = new Room( t );
+				}
 			}
+		
+			DataContainer.loaded = true;
 		}
 	}
 
@@ -191,7 +202,10 @@ public class Game extends View
 	@Override
 	public void mouseClick(MouseEvent e)
 	{
-        if(e.isPopupTrigger())
+		// this doesnt do anything on linux
+		// |
+		// V
+        if(e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON3)
         {
         	System.out.println("Right Click!");
             Main.instance.createPopup(e.getComponent(), e.getX(), e.getY());

@@ -31,6 +31,13 @@ public class IO
 		DataContainer.worldHeight = jsave.getInt("world-height");
 		DataContainer.worldWidth = jsave.getInt("world-width");
 		JSONArray jrooms = jsave.getJSONArray("rooms");
+		
+		if (!DataContainer.loaded)
+		{
+			DataContainer.rooms = new Room[ DataContainer.worldWidth ][ DataContainer.worldHeight ];
+			DataContainer.loaded = true;
+		}
+		
 		for(int i = 0; i < jrooms.length(); i++)
 		{
 			JSONObject jroom = jrooms.getJSONObject(i);

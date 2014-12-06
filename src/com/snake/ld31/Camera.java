@@ -22,6 +22,16 @@ public class Camera
 		return (worldY - y) * scale;
 	}
 	
+	public float getWorldX( float screenX )
+	{
+		return (screenX + x) / scale;
+	}
+	
+	public float getWorldY( float screenY )
+	{
+		return (screenY + y) / scale;
+	}
+	
 	public void center( float x, float y )
 	{
 		this.x = x - Main.instance.getScrWidth( )/2;
