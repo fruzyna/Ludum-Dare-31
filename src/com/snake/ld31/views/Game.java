@@ -3,6 +3,7 @@ package com.snake.ld31.views;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
+import com.snake.ld31.Main;
 import com.snake.ld31.View;
 
 public class Game extends View
@@ -32,15 +33,16 @@ public class Game extends View
 	@Override
 	public void keyPressed(KeyEvent e)
 	{
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
-		// TODO Auto-generated method stub
-		
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			Main.instance.goToMain();
+		}
 	}
 
 }

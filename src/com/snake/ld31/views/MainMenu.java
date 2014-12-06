@@ -10,16 +10,33 @@ import com.snake.ld31.Main;
 
 public class MainMenu extends View
 {
+	private long lastChange = 0;
+	private boolean showText = false;
+	
 	@Override
 	public void draw(Graphics2D draw)
 	{
+		draw.setColor(Color.ORANGE);
+		draw.fillRect(0, 0, Main.instance.getScrWidth(), Main.instance.getScrWidth());
+		
 		draw.setColor( Color.BLACK );
 		
 		String gameName = "PUT GAME NAME HERE!";
-		String tell = "Press Enter to Play!";
-		draw.setFont(new Font("TimesRoman", Font.PLAIN, 30));
-		draw.drawString(gameName, Main.instance.centerText(gameName, draw), 50);
-		draw.drawString(tell, Main.instance.centerText(tell, draw), 250);
+		String tell = "Press ENTER to Play!";
+		draw.setFont(new Font("Arial", Font.PLAIN, 40));
+		draw.drawString(gameName, Main.instance.centerText(gameName, draw), 100);
+		
+		long currentTime = System.currentTimeMillis();
+		if(currentTime - lastChange > 750)
+		{
+			lastChange = currentTime;
+			showText = !showText;
+		}
+		if(showText)
+		{
+			draw.setFont(new Font("Arial", Font.PLAIN, 30));
+			draw.drawString(tell, Main.instance.centerText(tell, draw), 400);
+		}
 	}
 
 	@Override
@@ -42,7 +59,12 @@ public class MainMenu extends View
 	{
 		if(e.getKeyCode() == KeyEvent.VK_ENTER)
 		{
-			Main.startGame();
+			Main.instance.startGame();
+		}
+		//for testing purposes the full release doesn't need this
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE)
+		{
+			Main.instance.goToLogo();
 		}
 	}
 	

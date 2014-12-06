@@ -98,7 +98,7 @@ public class Main implements KeyListener, Runnable
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
-		currentView = new Logo();
+		goToLogo();
 		
 		thread = new Thread(this);
 		thread.start();
@@ -133,7 +133,7 @@ public class Main implements KeyListener, Runnable
 		
 		}
 		
-		currentView = new MainMenu(); 
+		goToMain();
 		
 		while (running)
 		{
@@ -158,9 +158,19 @@ public class Main implements KeyListener, Runnable
 		cleanup( );
 	}
 
-	public static void startGame()
+	public void startGame()
 	{
 		currentView = new Game();
+	}
+
+	public void goToMain()
+	{
+		currentView = new MainMenu();
+	}
+	
+	public void goToLogo()
+	{
+		currentView = new Logo();
 	}
 	
 	public class Paint extends JPanel
