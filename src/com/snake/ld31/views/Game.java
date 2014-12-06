@@ -2,9 +2,12 @@ package com.snake.ld31.views;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import com.snake.ld31.DataContainer;
 import com.snake.ld31.Main;
 import com.snake.ld31.Room;
 import com.snake.ld31.RoomType;
@@ -28,11 +31,9 @@ public class Game extends View
 	
 	private Color skyColor;
 	
-	private Room[][] rooms;
-	
 	@Override
 	public void draw(Graphics2D draw)
-	{
+	{				
 		draw.setColor( skyColor );
 		draw.fillRect( 0, 0, Main.instance.getScrWidth(), Main.instance.getScrHeight() );
 		
@@ -56,11 +57,11 @@ public class Game extends View
 		}
 		
 		//Draw grid
-		for (int x=0;x < 31;++x)
+		for (int x=0;x < DataContainer.worldWidth;++x)
 		{
-			for (int y=0;y < 64;++y)
+			for (int y=0;y < DataContainer.worldHeight;++y)
 			{
-				RoomType t = rooms[x][y].getRoomType();
+				RoomType t = DataContainer.rooms[x][y].getRoomType();
 				
 				if (t == RoomType.ROOM_AIR && y != 62)
 					continue;
@@ -118,10 +119,13 @@ public class Game extends View
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );
 		Main.camera.x = 2112 - Main.instance.getScrWidth( ) / 2;
 		
-		rooms = new Room[31][64];
-		for (int x = 0;x < 31;++x)
+		DataContainer.worldWidth = 31;
+		DataContainer.worldHeight = 64;
+		DataContainer.rooms = new Room[31][64];
+		
+		for (int x = 0;x < DataContainer.worldWidth;++x)
 		{
-			for (int y = 0;y < 64;++y)
+			for (int y = 0;y < DataContainer.worldHeight;++y)
 			{
 				RoomType t = RoomType.ROOM_AIR;
 				
@@ -131,7 +135,7 @@ public class Game extends View
 				if (x == 16 && y == 62)
 					t = RoomType.ROOM_LOBBYBASE;
 				
-				rooms[x][y] = new Room( t );
+				DataContainer.rooms[x][y] = new Room( t );
 			}
 		}
 	}
@@ -149,6 +153,13 @@ public class Game extends View
 		{
 			Main.instance.goToMain();
 		}
+	}
+
+	@Override
+	public void mouseClick(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

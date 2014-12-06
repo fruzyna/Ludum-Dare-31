@@ -5,8 +5,12 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -16,8 +20,9 @@ import javax.swing.JPanel;
 import com.snake.ld31.views.Game;
 import com.snake.ld31.views.Logo;
 import com.snake.ld31.views.MainMenu;
+import com.snake.ld31.views.OpenSave;
 
-public class Main implements KeyListener, Runnable
+public class Main implements KeyListener, Runnable, MouseListener
 {
 	public static Main instance;
 	public static View currentView;
@@ -61,7 +66,7 @@ public class Main implements KeyListener, Runnable
 	
 	public Main()
 	{
-		frame = new JFrame("Ludum Dare 31");
+		frame = new JFrame("Ludum Dare 31: Tower Game");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addKeyListener(this);
 		
@@ -76,6 +81,7 @@ public class Main implements KeyListener, Runnable
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
+				IO.saveSave();
 				running = false;
 			}
 
@@ -107,6 +113,7 @@ public class Main implements KeyListener, Runnable
 		camera = new Camera( );
 		
 		goToLogo();
+		paint.addMouseListener(this);
 		
 		thread = new Thread(this);
 		thread.start();
@@ -176,6 +183,11 @@ public class Main implements KeyListener, Runnable
 		currentView = new MainMenu();
 	}
 	
+	public void saveLoad()
+	{
+		currentView = new OpenSave();
+	}
+	
 	public void goToLogo()
 	{
 		currentView = new Logo();
@@ -212,6 +224,39 @@ public class Main implements KeyListener, Runnable
 	public void keyTyped(KeyEvent arg0)
 	{
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0)
+	{
+		currentView.mouseClick(arg0);
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e)
+	{
 		
 	}
 }
