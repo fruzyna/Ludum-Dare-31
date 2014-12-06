@@ -22,6 +22,7 @@ public class Main implements KeyListener, Runnable
 	public static Main instance;
 	public static View currentView;
 	public static ImageLoader imgLoader;
+	public static Camera camera;
 	
 	public static float ticks;
 	
@@ -102,6 +103,8 @@ public class Main implements KeyListener, Runnable
 		
 		instance = this;
 		imgLoader = new ImageLoader( );
+		
+		camera = new Camera( );
 		
 		goToLogo();
 		
