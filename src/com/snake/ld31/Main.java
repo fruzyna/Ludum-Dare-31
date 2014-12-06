@@ -2,6 +2,7 @@ package com.snake.ld31;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,6 +31,7 @@ public class Main implements KeyListener, Runnable, MouseListener
 	public static Camera camera;
 	
 	public static float ticks;
+	private long deltaTime;
 	
 	private JFrame frame;
 	private Paint paint;
@@ -150,7 +152,8 @@ public class Main implements KeyListener, Runnable, MouseListener
 		
 		while (running)
 		{
-			long deltaTime = System.currentTimeMillis() - lastTickTime;
+			
+			deltaTime = System.currentTimeMillis() - lastTickTime;
 			lastTickTime = System.currentTimeMillis();
 			
 			float deltaTimeFloat = ((float)deltaTime / 1000.0f);
@@ -205,6 +208,10 @@ public class Main implements KeyListener, Runnable, MouseListener
 			
 			if (currentView != null)
 				currentView.draw(draw);
+			
+			draw.setColor(Color.YELLOW);
+			draw.setFont(new Font("Arial", Font.PLAIN, 40));
+			draw.drawString(String.valueOf(1000/deltaTime), 10, 40);
 		}
 	}
 	
