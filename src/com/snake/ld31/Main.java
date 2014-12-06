@@ -2,7 +2,6 @@ package com.snake.ld31;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,6 +21,7 @@ public class Main implements KeyListener, Runnable
 {
 	public static Main instance;
 	public static View currentView;
+	public static ImageLoader imgLoader;
 	
 	private JFrame frame;
 	private Paint paint;
@@ -98,12 +98,13 @@ public class Main implements KeyListener, Runnable
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		
+		instance = this;
+		imgLoader = new ImageLoader( );
+		
 		goToLogo();
 		
 		thread = new Thread(this);
 		thread.start();
-		
-		instance = this;
 	}
 	
 	private void cleanup( )

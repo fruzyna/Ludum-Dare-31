@@ -4,10 +4,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 import com.snake.ld31.Main;
 import com.snake.ld31.View;
@@ -35,14 +31,7 @@ public class Logo extends View
 	@Override
 	public void init()
 	{
-	    try
-		{
-			img = ImageIO.read(new File("res/logo.png"));
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		img = Main.imgLoader.load( "logo.png" );
 	}
 
 	@Override
