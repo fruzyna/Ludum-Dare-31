@@ -48,11 +48,7 @@ public class OpenSave extends View
 	}
 
 	@Override
-	public void run(float deltaTime)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void run(float deltaTime){}
 
 	@Override
 	public void init()
@@ -62,18 +58,10 @@ public class OpenSave extends View
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyPressed(KeyEvent e){}
 
 	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e){}
 
 	@Override
 	public void mouseClick(MouseEvent e)

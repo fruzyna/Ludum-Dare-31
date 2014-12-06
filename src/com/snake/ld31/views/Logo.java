@@ -40,22 +40,12 @@ public class Logo extends View
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		
-	}
+	public void keyPressed(KeyEvent e){}
 
 	@Override
-	public void keyReleased(KeyEvent e)
-	{
-		
-	}
+	public void keyReleased(KeyEvent e){}
 
 	@Override
-	public void mouseClick(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClick(MouseEvent e){}
 
 }

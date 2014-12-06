@@ -226,11 +226,7 @@ public class Main implements KeyListener, Runnable, MouseListener
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyTyped(KeyEvent arg0){}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0)
@@ -239,29 +235,14 @@ public class Main implements KeyListener, Runnable, MouseListener
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent arg0){}
 
 	@Override
-	public void mouseExited(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e){}
 
 	@Override
-	public void mousePressed(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e){}
 
 	@Override
-	public void mouseReleased(MouseEvent e)
-	{
-		
-	}
+	public void mouseReleased(MouseEvent e){}
 }

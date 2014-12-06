@@ -95,10 +95,7 @@ public class Game extends View
 	}
 
 	@Override
-	public void run( float deltaTime )
-	{
-		
-	}
+	public void run( float deltaTime ){}
 
 	@Override
 	public void init()
@@ -141,10 +138,7 @@ public class Game extends View
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e)
-	{
-		
-	}
+	public void keyPressed(KeyEvent e){}
 
 	@Override
 	public void keyReleased(KeyEvent e)
@@ -156,10 +150,6 @@ public class Game extends View
 	}
 
 	@Override
-	public void mouseClick(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClick(MouseEvent e){}
 
 }
