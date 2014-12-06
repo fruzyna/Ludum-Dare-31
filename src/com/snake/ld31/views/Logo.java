@@ -2,7 +2,9 @@ package com.snake.ld31.views;
 
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -54,6 +56,13 @@ public class Logo extends View
 	@Override
 	public void keyReleased(KeyEvent e)
 	{
+		
+	}
+
+	@Override
+	public void mouseClick(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
 		
 	}
 
