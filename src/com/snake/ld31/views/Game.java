@@ -32,6 +32,8 @@ public class Game extends View
 	private BufferedImage cloud2;
 	
 	private BufferedImage lobbyBase;
+	private BufferedImage lobbyEmpty;
+	private BufferedImage lobbyCouch;
 	
 	private Color skyColor;
 	private Boolean menuOpen = false;
@@ -39,10 +41,11 @@ public class Game extends View
 	@Override
 	public void draw(Graphics2D draw)
 	{				
+		//Draw sky
 		draw.setColor( skyColor );
 		draw.fillRect( 0, 0, Main.instance.getScrWidth(), Main.instance.getScrHeight() );
 		
-		//Draw Clouds
+		//Draw clouds
 		for (int i=0;i < 10;++i)
 		{
 			//disregard this ugly code plz
@@ -68,7 +71,7 @@ public class Game extends View
 			{
 				RoomType t = DataContainer.rooms[x][y].getRoomType();
 				
-				if (t == RoomType.ROOM_AIR && y != 62)
+				if (t == RoomType.ROOM_AIR && y != 60)
 					continue;
 				
 				int drawX = (int)Main.camera.getRasterX( x * 128 );
@@ -86,11 +89,17 @@ public class Game extends View
 				case ROOM_LOBBYBASE:
 					i = lobbyBase;
 					break;
+				case ROOM_LOBBYEXT:
+					if (x % 2 == 0)
+						i = lobbyEmpty;
+					else
+						i = lobbyCouch;
+					break;
 				default:
 					i = null;
 				}
 				
-				if (y == 62 && t == RoomType.ROOM_AIR)
+				if (y == 60 && t == RoomType.ROOM_AIR)
 					i = grass;
 				
 				if (i != null)
@@ -115,6 +124,8 @@ public class Game extends View
 		cloud2 =		Main.imgLoader.load("cloud2.png");
 		
 		lobbyBase =		Main.imgLoader.load("lobby.png");
+		lobbyEmpty =	Main.imgLoader.load("lobby_empty.png");
+		lobbyCouch =	Main.imgLoader.load("lobby_couch.png");
 		
 		skyColor = new Color( 142, 255, 253 );
 		
@@ -124,6 +135,7 @@ public class Game extends View
 		DataContainer.worldWidth = 31;
 		DataContainer.worldHeight = 64;
 		DataContainer.rooms = new Room[31][64];
+		DataContainer.worldName = "world";
 		
 		for (int x = 0;x < DataContainer.worldWidth;++x)
 		{
@@ -131,11 +143,17 @@ public class Game extends View
 			{
 				RoomType t = RoomType.ROOM_AIR;
 				
-				if (y == 63)
+				if (y > 60)
 					t = RoomType.ROOM_GRASS;
 				
-				if (x == 16 && y == 62)
+				if (x == 16 && y == 60)
 					t = RoomType.ROOM_LOBBYBASE;
+				
+				if (x == 15 && y == 60)
+					t = RoomType.ROOM_LOBBYEXT;
+				
+				if (x == 17 && y == 60)
+					t = RoomType.ROOM_LOBBYEXT;
 				
 				DataContainer.rooms[x][y] = new Room( t );
 			}
