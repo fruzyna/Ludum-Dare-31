@@ -44,7 +44,12 @@ public class IO
 		jsave.put("world-width", DataContainer.worldWidth);
 		try
 		{
-			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("save" + File.separator + DataContainer.worldName)));
+			File saveFile = new File("save" + File.separator + DataContainer.worldName);
+			saveFile.getParentFile().mkdirs();
+			if(!saveFile.exists()) {
+				saveFile.createNewFile();
+			}
+			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
 			bw.write(jsave.toString());
 			bw.close();
 		} catch (IOException e)
