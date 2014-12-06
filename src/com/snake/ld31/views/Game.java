@@ -7,6 +7,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JFrame;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
+
 import com.snake.ld31.DataContainer;
 import com.snake.ld31.Main;
 import com.snake.ld31.Room;
@@ -30,7 +34,8 @@ public class Game extends View
 	private BufferedImage lobbyBase;
 	
 	private Color skyColor;
-	
+	private Boolean menuOpen = false;
+	  
 	@Override
 	public void draw(Graphics2D draw)
 	{				
@@ -93,7 +98,7 @@ public class Game extends View
 			}
 		}
 	}
-
+	
 	@Override
 	public void run( float deltaTime ){}
 
@@ -150,6 +155,11 @@ public class Game extends View
 	}
 
 	@Override
-	public void mouseClick(MouseEvent e){}
-
+	public void mouseClick(MouseEvent e)
+	{
+        if(e.isPopupTrigger())
+        {
+            Main.instance.createPopup(e.getComponent(), e.getX(), e.getY());
+        }
+	}
 }

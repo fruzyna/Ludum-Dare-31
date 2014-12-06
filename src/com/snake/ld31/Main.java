@@ -1,11 +1,14 @@
 package com.snake.ld31;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -13,8 +16,11 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JMenuItem;
 
 import com.snake.ld31.views.Game;
 import com.snake.ld31.views.Logo;
@@ -211,6 +217,32 @@ public class Main implements KeyListener, Runnable, MouseListener
 			draw.setFont(new Font("Arial", Font.PLAIN, 40));
 			draw.drawString(String.valueOf(1000/deltaTime), 10, 40);
 		}
+	}
+	
+	public void createPopup(Component comp, int x, int y)
+	{
+		JPopupMenu menu = new JPopupMenu("Popup");
+		menu.show(comp, x, y);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    JMenuItem item = new JMenuItem("Test1");
+	    item.addActionListener(new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
+	        System.out.println("Menu item Test1");
+	      }
+	    });
+	    menu.add(item);
+
+	    item = new JMenuItem("Test2");
+	    item.addActionListener(new ActionListener() {
+	      public void actionPerformed(ActionEvent e) {
+	        System.out.println("Menu item Test2");
+	      }
+	    });
+	    menu.add(item);
+
+	    frame.getContentPane().add(menu);
+	    frame.pack();
+	    frame.setSize(300, 100);
 	}
 	
 	@Override
