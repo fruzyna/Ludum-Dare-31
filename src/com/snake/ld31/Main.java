@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
@@ -26,14 +27,15 @@ import com.snake.ld31.views.Logo;
 import com.snake.ld31.views.MainMenu;
 import com.snake.ld31.views.OpenSave;
 
-public class Main implements KeyListener, Runnable, MouseListener
+public class Main implements KeyListener, Runnable, MouseListener, MouseMotionListener
 {
 	public static Main instance;
 	public static View currentView;
 	public static ImageLoader imgLoader;
 	public static Camera camera;
-	
+	public static int mouseX, mouseY;
 	public static float ticks;
+	
 	private long deltaTime;
 	
 	private JFrame frame;
@@ -119,6 +121,7 @@ public class Main implements KeyListener, Runnable, MouseListener
 		
 		goToLogo();
 		paint.addMouseListener(this);
+		paint.addMouseMotionListener( this );
 		
 		thread = new Thread(this);
 		thread.start();
@@ -266,14 +269,28 @@ public class Main implements KeyListener, Runnable, MouseListener
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent arg0){}
+	public void mouseEntered(MouseEvent arg0){ }
 
 	@Override
-	public void mouseExited(MouseEvent e){}
+	public void mouseExited(MouseEvent e){ }
 
 	@Override
-	public void mousePressed(MouseEvent e){}
+	public void mousePressed(MouseEvent e){ }
 
 	@Override
-	public void mouseReleased(MouseEvent e){}
+	public void mouseReleased(MouseEvent e){ }
+
+	@Override
+	public void mouseDragged(MouseEvent e)
+	{
+		mouseX = e.getX( );
+		mouseY = e.getY( );
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent e) 
+	{
+		mouseX = e.getX();
+		mouseY = e.getY();
+	}
 }

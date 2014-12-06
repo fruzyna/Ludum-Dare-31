@@ -14,6 +14,11 @@ public class Room
 		roomType = type;
 	}
 	
+	public void setType( RoomType type )
+	{
+		roomType = type;
+	}
+	
 	public RoomType getRoomType( )
 	{
 		return roomType;

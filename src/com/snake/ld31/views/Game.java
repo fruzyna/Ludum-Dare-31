@@ -17,11 +17,11 @@ import com.snake.ld31.Room;
 import com.snake.ld31.RoomType;
 import com.snake.ld31.View;
 
-//sky colour - 142 255 253
-
 @SuppressWarnings("unused")
 public class Game extends View
 {
+	private final int numIcons = 1;
+	
 	private BufferedImage grass;
 	private BufferedImage dirt;
 	private BufferedImage arrowLeft;
@@ -37,9 +37,13 @@ public class Game extends View
 	
 	private BufferedImage elevator;
 	
+	private BufferedImage icons[ ];
+	private float iconScale[ ];
+	private int selectedIcon;
+	
 	private Color skyColor;
 	private Boolean menuOpen = false;
-	  
+		  
 	@Override
 	public void draw(Graphics2D draw)
 	{				
@@ -63,7 +67,6 @@ public class Game extends View
 				cloud = cloud1;
 			else
 				cloud = cloud2;
-			
 			
 			draw.drawImage( cloud, x, (int)( y + Math.sin(Main.ticks/5 + i) * 6), (int)(256.0f * scale), (int)(128.0f * scale), null );
 		}
@@ -125,10 +128,52 @@ public class Game extends View
 				}
 			}
 		}
+		
+		if (selectedIcon != -1)
+		{
+			int localX, localY;
+			int gridX, gridY;
+			
+			localX = (int)Main.camera.getWorldX( Main.mouseX );
+			localY = (int)Main.camera.getWorldY( Main.mouseY );
+			
+			gridX = (localX / 128) * 128;
+			gridY = (localY / 128) * 128;
+			
+			Color c = new Color(255,255,255, (int)(Math.sin(Main.ticks * 7) * 70.0) + 128 );
+			
+			draw.setColor( c );
+			draw.fillRect( (int)Main.camera.getRasterX(gridX), (int)Main.camera.getRasterY(gridY), 128, 128 );
+		}
+		
+		for (int i=0;i < numIcons;++i)
+		{
+			BufferedImage j;
+			
+			if (selectedIcon == i)
+				j = icons[i*2 + 1];
+			else
+				j = icons[i*2];
+			
+			draw.drawImage( j, 80*i + 47 - (int)(iconScale[0] * 64.0f)/2, 47 - (int)(iconScale[0] * 64.0f)/2, (int)(iconScale[0] * 64.0f), (int)(iconScale[0] * 64.0f), null );
+		}
 	}
 	
 	@Override
-	public void run( float deltaTime ){ /*Main.camera.scale = (float)(Math.sin(Main.ticks) + 1.0);*/ }
+	public void run( float deltaTime )
+	{ 
+		/*Main.camera.scale = (float)(Math.sin(Main.ticks) + 1.0);*/
+		
+		//System.out.println( selectedIcon );
+		
+		for (int i=0;i < numIcons;++i)
+		{
+			if (Main.mouseX >= (15 + 80*i) && Main.mouseX <= (79 + 80*i) && Main.mouseY >= 15 && Main.mouseY <= 79)
+				iconScale[i] += (1.2 - iconScale[i]) * 0.3f;
+			else
+				iconScale[i] += (1.0 - iconScale[i]) * 0.3f;
+		}
+	}
 
 	@Override
 	public void init()
@@ -148,7 +193,16 @@ public class Game extends View
 		
 		elevator =		Main.imgLoader.load("elevator.png");
 		
+		icons =			new BufferedImage[numIcons*2];
+		icons[0] = 		Main.imgLoader.load("icon_lobby.png");
+		icons[1] =		Main.imgLoader.load("icon_lobby_selected.png");
+		
 		skyColor = new Color( 142, 255, 253 );
+		
+		selectedIcon = -1;
+		iconScale = new float[numIcons];
+		
+		for (int i=0;i < numIcons;++i){ iconScale[i] = 1.0f; }
 		
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );
 		Main.camera.x = 2112 - Main.instance.getScrWidth( ) / 2;
@@ -209,6 +263,45 @@ public class Game extends View
         {
         	System.out.println("Right Click!");
             Main.instance.createPopup(e.getComponent(), e.getX(), e.getY());
+        }
+        
+        if (e.getY( ) >= 15 && e.getY( ) <= 79)
+        {        	
+        	for (int i=0;i < numIcons;++i)
+        	{
+        		if (Main.mouseX >= (15 + 80*i) && Main.mouseX <= (79 + 80*i))
+        		{	
+        			iconScale[i] = 0.0f;
+        			
+        			if (selectedIcon != i)
+        				selectedIcon = i;
+        			else
+        				selectedIcon = -1;
+        			
+        			return;
+        		}
+        	}
+        }
+        
+        if (selectedIcon != -1)
+        {
+			int localX, localY;
+			int gridX, gridY;
+			
+			localX = (int)Main.camera.getWorldX( Main.mouseX );
+			localY = (int)Main.camera.getWorldY( Main.mouseY );
+			
+			gridX = (localX / 128);
+			gridY = (localY / 128);
+			
+			switch (selectedIcon)
+			{
+			case 0: //lobby
+				DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_LOBBYEXT );
+				break;
+			default:
+				break;
+			}
         }
 	}
 }
