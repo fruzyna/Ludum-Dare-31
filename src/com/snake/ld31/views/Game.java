@@ -77,7 +77,7 @@ public class Game extends View
 				int drawX = (int)Main.camera.getRasterX( x * 128 );
 				int drawY = (int)Main.camera.getRasterY( y * 128 );
 				
-				int scale = (int)Main.camera.scale * 128;
+				int scale = (int)Math.ceil((Main.camera.scale * 128.0f));
 				
 				BufferedImage i = null;
 				
@@ -104,12 +104,27 @@ public class Game extends View
 				
 				if (i != null)
 					draw.drawImage( i, drawX, drawY, scale, scale, null );
+				
+				if (t == RoomType.ROOM_AIR)
+					continue;
+				
+				if ((x != 0 && DataContainer.rooms[x-1][y].getRoomType( ) == RoomType.ROOM_AIR) || x == 0)
+				{
+					draw.setColor( Color.black );
+					draw.fillRect( drawX, drawY, scale/32 , scale );
+				}
+				
+				if ((x != DataContainer.worldWidth-1 && DataContainer.rooms[x+1][y].getRoomType( ) == RoomType.ROOM_AIR) || x == DataContainer.worldWidth-1)
+				{
+					draw.setColor( Color.black );
+					draw.fillRect( drawX + scale - scale/32, drawY, scale/32 , scale );
+				}
 			}
 		}
 	}
 	
 	@Override
-	public void run( float deltaTime ){}
+	public void run( float deltaTime ){ }
 
 	@Override
 	public void init()
@@ -131,6 +146,7 @@ public class Game extends View
 		
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );
 		Main.camera.x = 2112 - Main.instance.getScrWidth( ) / 2;
+		Main.camera.scale = 1.0f;
 		
 		DataContainer.worldWidth = 31;
 		DataContainer.worldHeight = 64;
