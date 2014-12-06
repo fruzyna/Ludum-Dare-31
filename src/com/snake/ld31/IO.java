@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class IO
@@ -29,6 +30,12 @@ public class IO
 		DataContainer.worldName = jsave.getString("world-name");
 		DataContainer.worldHeight = jsave.getInt("world-height");
 		DataContainer.worldWidth = jsave.getInt("world-width");
+		JSONArray jrooms = jsave.getJSONArray("rooms");
+		for(int i = 0; i < jrooms.length(); i++)
+		{
+			JSONObject jroom = jrooms.getJSONObject(i);
+			DataContainer.rooms[jroom.getInt("room-x")][jroom.getInt("room-y")] = new Room(RoomType.values()[jroom.getInt("room-type")]);
+		}
 		Main.instance.startGame();
 	}
 	
@@ -42,6 +49,19 @@ public class IO
 		jsave.put("world-name", DataContainer.worldName);
 		jsave.put("world-height", DataContainer.worldHeight);
 		jsave.put("world-width", DataContainer.worldWidth);
+		JSONArray jrooms = new JSONArray();
+		for(int i = 0; i < DataContainer.rooms.length; i++)
+		{
+			for(int j = 0; j < DataContainer.rooms[i].length; j++)
+			{
+				JSONObject jroom = new JSONObject();
+				jroom.put("room-type", DataContainer.rooms[i][j].getRoomType().ordinal());
+				jroom.put("room-x", i);
+				jroom.put("room-y", j);
+				jrooms.put(jroom);
+			}
+		}
+		jsave.put("rooms", jrooms);
 		try
 		{
 			File saveFile = new File("save" + File.separator + DataContainer.worldName);

@@ -193,6 +193,7 @@ public class Game extends View
 	{
         if(e.isPopupTrigger())
         {
+        	System.out.println("Right Click!");
             Main.instance.createPopup(e.getComponent(), e.getX(), e.getY());
         }
 	}
