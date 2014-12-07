@@ -22,6 +22,18 @@ public class IO
 	
 	public static void loadConfig()
 	{
+		File file = new File("config.snake");
+		if(file.exists())
+		{
+			JSONObject jconfig = new JSONObject(readFromFile(new File("config.snake")));
+			DataContainer.xres = jconfig.getInt("x-res");
+			DataContainer.yres = jconfig.getInt("y-res");
+		}
+		else
+		{
+			DataContainer.xres = 1024;
+			DataContainer.yres = 768;
+		}
 	}
 	
 	public static void loadSave(File file)
@@ -48,6 +60,23 @@ public class IO
 	
 	public static void saveConfig()
 	{
+		JSONObject jconfig = new JSONObject();
+		jconfig.put("x-res", DataContainer.xres);
+		jconfig.put("y-res", DataContainer.yres);
+		try
+		{
+			File saveFile = new File("config" + ".snake");
+			if(!saveFile.exists()) {
+				saveFile.createNewFile();
+			}
+			BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile));
+			bw.write(jconfig.toString());
+			bw.close();
+		} catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public static void saveSave()
@@ -87,6 +116,7 @@ public class IO
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		saveConfig();
 		
 	}
 	

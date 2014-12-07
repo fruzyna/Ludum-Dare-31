@@ -9,4 +9,7 @@ public class DataContainer
 	public static int worldHeight;
 	
 	public static Room[][] rooms;
+	
+	public static int xres;
+	public static int yres;
 }

@@ -49,12 +49,12 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 	
 	public int getScrWidth( )
 	{
-		return 1024;
+		return DataContainer.xres;
 	}
 
 	public int getScrHeight( )
 	{
-		return 768;
+		return DataContainer.yres;
 	}
 	
 	public int getStringWidth(String s, Graphics2D draw)
@@ -70,6 +70,7 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 	
 	public Main()
 	{
+		IO.loadConfig();
 		frame = new JFrame("Ludum Dare 31: Tower Game");
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addKeyListener(this);
