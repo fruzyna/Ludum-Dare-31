@@ -310,10 +310,11 @@ public class Game extends View
 		// this doesnt do anything on linux
 		// |
 		// V
+		//actually it does it shinks the screen
         if(e.isPopupTrigger() || e.getButton() == MouseEvent.BUTTON3)
         {
         	System.out.println("Right Click!");
-            Main.instance.createPopup(e.getComponent(), e.getX(), e.getY());
+            //Main.instance.createPopup(e.getComponent(), e.getX(), e.getY());
         }
         
         if (e.getY( ) >= 15 && e.getY( ) <= 79)
