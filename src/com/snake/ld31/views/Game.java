@@ -238,8 +238,18 @@ public class Game extends View
 		draw.setColor(Color.YELLOW);
 		draw.drawString("$" + String.valueOf(DataContainer.money), 10, DataContainer.yres - 40);
 		draw.setColor(Color.WHITE);
-		String h = String.format("%.2f", DataContainer.hours);
-		draw.drawString(h + " hours", 10, DataContainer.yres - 10);
+		//String h = String.format("%.2f", DataContainer.hours);
+		
+		int hour = (int)DataContainer.hours;
+		int minutes = (int)( (DataContainer.hours - (double)hour) * 60.0 );
+		
+		String h = hour + ":";
+		if (minutes < 10)
+			h = h + "0" + minutes;
+		else
+			h = h + minutes;
+		
+		draw.drawString( h, 10, DataContainer.yres - 10);
 	}
 	
 	public void updateViewBounds( )
@@ -300,6 +310,9 @@ public class Game extends View
 	
 	public void addGuest( Room hotel )
 	{
+		if (openHotels.contains(hotel))
+			return;
+		
 		openHotels.add( hotel );
 		guestTarget++;
 	}
@@ -598,10 +611,10 @@ public class Game extends View
 					if ( DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
 						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 				
-					if ( gridX != DataContainer.worldWidth && DataContainer.rooms[gridX+1][gridY].getRoomType() == RoomType.ROOM_BEAMS )
+					if ( gridX != DataContainer.worldWidth && DataContainer.rooms[gridX+1][gridY].getRoomType() != RoomType.ROOM_AIR )
 						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 					
-					if ( gridX != 0 && DataContainer.rooms[gridX-1][gridY].getRoomType() == RoomType.ROOM_BEAMS)
+					if ( gridX != 0 && DataContainer.rooms[gridX-1][gridY].getRoomType() != RoomType.ROOM_AIR )
 						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 				}
 				updateViewBounds( );

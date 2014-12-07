@@ -2,6 +2,7 @@ package com.snake.ld31;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Vector;
 
 public class Guest
 {
@@ -14,7 +15,7 @@ public class Guest
 	private Room target;
 	private Room elevator;
 	
-	private int hunger, entertainment, sleep;
+	private float hunger, entertainment, sleep;
 	
 	private long checkInTime;
 	private float feet;
@@ -35,9 +36,9 @@ public class Guest
 		target = null;
 		elevator = null;
 		
-		hunger = Main.rnd.nextInt(100);
-		entertainment = Main.rnd.nextInt(100);
-		sleep = Main.rnd.nextInt(100);
+		hunger = Main.rnd.nextInt(50);
+		entertainment = Main.rnd.nextInt(50);
+		sleep = Main.rnd.nextInt(50);
 		
 		face = new Color( Color.HSBtoRGB( (Main.rnd.nextFloat() * 0.12f) + 0.12f , (Main.rnd.nextFloat() * 0.6f) + 0.4f, (Main.rnd.nextFloat( ) * 0.7f) + 0.3f ) );
 		top = new Color( Main.rnd.nextInt(255), Main.rnd.nextInt(255), Main.rnd.nextInt(255) );
@@ -87,6 +88,13 @@ public class Guest
 						{
 							delete = true;
 						}
+						else if (target.getRoomType() == RoomType.ROOM_HOTEL)
+						{
+							System.out.println(sleep);
+
+							if (sleep >= 100)
+								goToRestaurant( );
+						}
 					}
 					else
 						x += Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70;
@@ -116,6 +124,37 @@ public class Guest
 	{
 		elevator = findNearestElevator( hotelRoom.getY( ) );
 		target = hotelRoom;
+	}
+	
+	public void goToRestaurant( )
+	{
+		Room r = findRestaurant( );
+		
+		if (r == null)
+			return;
+		
+		elevator = findNearestElevator( r.getY( ) );
+		target = r;
+	}
+	
+	//gets a random restaurant
+	private Room findRestaurant( )
+	{
+		Vector<Room> restaurants = new Vector<Room>( );
+		
+		for (int x=0;x < DataContainer.worldWidth;++x)
+		{
+			for (int y=0;y < DataContainer.worldHeight;++y)
+			{
+				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_RESTURANT)
+					restaurants.add( DataContainer.rooms[x][y] );
+			}
+		}
+		
+		if (restaurants.isEmpty())
+			return null;
+		
+		return restaurants.elementAt( Main.rnd.nextInt( restaurants.size() ) );
 	}
 	
 	private Room findNearestElevator( int targetFloor )
