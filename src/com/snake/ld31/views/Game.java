@@ -22,6 +22,7 @@ public class Game extends View
 {
 	private final int numIcons = 12;
 	private final int numRestaurant = 2;
+	private final int numShop = 1;
 	
 	private BufferedImage grass;
 	private BufferedImage dirt;
@@ -143,8 +144,13 @@ public class Game extends View
 					i = theatre;
 					break;
 				case ROOM_SHOP:
-					i = shop;
-					break;
+				{
+					int n = (y * DataContainer.worldWidth + x) % numShop;
+					
+					if (n == 0)
+						i = shop;
+				}
+				break;
 				case ROOM_DRENTH:
 					i = drenth;
 					break;
