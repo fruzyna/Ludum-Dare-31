@@ -1,5 +1,6 @@
 package com.snake.ld31.views;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -63,9 +64,6 @@ public class Game extends View
 	private long lastGuestAdded = 0;
 	
 	private float targetScale = 1.0f;
-	
-	private Color skyColor;
-	private Boolean menuOpen = false;
 		  
 	private long lastTime;
 	
@@ -73,7 +71,9 @@ public class Game extends View
 	public void draw(Graphics2D draw)
 	{				
 		//Draw sky
-		draw.setColor( skyColor );
+		Color skyMixed = new Color( (int)( 142.0f * getDayNight() ), (int)( 255.0f * getDayNight() ), (int)( 253.0f * getDayNight() ) );
+		
+		draw.setColor( skyMixed );
 		draw.fillRect( 0, 0, Main.instance.getScrWidth(), Main.instance.getScrHeight() );
 		
 		//Draw clouds
@@ -93,8 +93,10 @@ public class Game extends View
 			else
 				cloud = cloud2;
 			
+            draw.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, getDayNight( ) ));
 			draw.drawImage( cloud, x, (int)( y + Math.sin(Main.ticks/5 + i) * 6), (int)(256.0f * scale), (int)(128.0f * scale), null );
 			
+			draw.setComposite( AlphaComposite.getInstance( AlphaComposite.SRC_OVER, 1.0f ) );
 		}
 		
 		//Draw grid
@@ -312,10 +314,27 @@ public class Game extends View
 	public void addGuest( Room hotel )
 	{
 		if (openHotels.contains(hotel))
+		{
+			System.out.println("room is already in list of open hotels");
 			return;
-		
+		}
+			
 		openHotels.add( hotel );
 		guestTarget++;
+	}
+	
+	public float getDayNight( )
+	{
+		if (DataContainer.hours >= 6 && DataContainer.hours <= 7)
+			return (float)DataContainer.hours - 6.0f;
+		
+		if (DataContainer.hours >= 7 && DataContainer.hours <= 19)
+			return 1;
+		
+		if (DataContainer.hours >= 19 && DataContainer.hours <= 20)
+			return (float)(1.0f - (DataContainer.hours - 19.0f));
+		
+		return 0;
 	}
 	
 	@Override
@@ -354,6 +373,9 @@ public class Game extends View
 		
 		DataContainer.hours += (float)(System.currentTimeMillis() - lastTime)/60000;
 		lastTime = System.currentTimeMillis();
+		
+		if (DataContainer.hours > 24)
+			DataContainer.hours -= 24;
 	}
 	
 
@@ -414,26 +436,16 @@ public class Game extends View
 		icons[24] = 	Main.imgLoader.load("icons/icon_beams.png");
 		icons[25] = 	Main.imgLoader.load("icons/icon_beams_selected.png");
 		
-		skyColor = new Color( 142, 255, 253 );
-		
 		selectedIcon = -1;
 		iconScale = new float[numIcons];
 		
 		for (int i=0;i < numIcons;++i){ iconScale[i] = 1.0f; }
 		
-		if (DataContainer.guests != null)
-			guests = DataContainer.guests;
-		else
-		{
-			DataContainer.guests = new Vector<Guest>( );
-			guests = DataContainer.guests;
-		}
-		
-		openHotels = new Vector<Room>( );
-		
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );
 		Main.camera.x = 2112 - Main.instance.getScrWidth( ) / 2;
 		Main.camera.scale = 1.0f;
+		
+		openHotels = new Vector<Room>( );
 		
 		if (!DataContainer.loaded)
 		{
@@ -441,6 +453,8 @@ public class Game extends View
 			DataContainer.worldHeight = 64;
 			DataContainer.rooms = new Room[31][64];
 			DataContainer.worldName = "world";
+		
+			DataContainer.guests = new Vector<Guest>( );
 			
 			for (int x = 0;x < DataContainer.worldWidth;++x)
 			{
@@ -464,8 +478,50 @@ public class Game extends View
 				}
 			}
 		
+			DataContainer.hours = 7;
+			
 			DataContainer.loaded = true;
 		}
+		else
+		{
+			guestTarget = 0;
+			
+			for (int x = 0;x < DataContainer.worldWidth;++x)
+			{
+				for (int y=0;y < DataContainer.worldHeight;++y)
+				{
+					RoomType t = DataContainer.rooms[x][y].getRoomType( );
+					
+					if (t == RoomType.ROOM_HOTEL)
+						guestTarget++;
+					else
+						continue;
+					
+					boolean guestHasThis = false;
+					
+					for (int g = 0;g < DataContainer.guests.size( );++g)
+					{
+						Guest gu = DataContainer.guests.get(g);
+						if (gu.hotelRoom.equals( DataContainer.rooms[x][y] ))
+						{
+							guestHasThis = true;
+							
+							break;
+						}
+					}
+					
+					if (!guestHasThis)
+						openHotels.add( DataContainer.rooms[x][y] );
+				}
+			}
+			
+			System.out.println("guest target is " + guestTarget);
+		}
+		
+		guests = DataContainer.guests;
+		lastGuestAdded = 0;
+		
+		System.out.println("currently " + guests.size() + " guests");
 		
 		updateViewBounds( );
 		Main.camera.set( );
@@ -629,13 +685,15 @@ public class Game extends View
 	
 	private boolean canBeRoom(int gridX, int gridY)
 	{
-		if((DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR || DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_BEAMS) && (DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR || DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_BEAMS))
-		{
+		if (DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_BEAMS)
 			return true;
-		}
-		else
-		{
+		
+		if (DataContainer.rooms[gridX][gridY].getRoomType() != RoomType.ROOM_AIR)
 			return false;
-		}
+		
+		if (gridY != DataContainer.worldHeight && DataContainer.rooms[gridX][gridY+1].getRoomType() != RoomType.ROOM_AIR)
+			return true;
+			
+		return false;
 	}
 }
