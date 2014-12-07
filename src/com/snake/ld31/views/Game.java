@@ -599,12 +599,14 @@ public class Game extends View
 			case 1: //lobby
 				if (DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && gridY == 60)
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_LOBBYEXT );
+				DataContainer.money -= 50;
 				
 				updateViewBounds( );
 				break;
 			case 2: //elevator
 				if( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType(RoomType.ROOM_ELEVATOR);
+				DataContainer.money -= 75;
 				updateViewBounds();
 				break;
 			case 3: //hotel
@@ -618,6 +620,7 @@ public class Game extends View
 			case 4: //resturant
 				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_RESTURANT );
+				DataContainer.money -= 150;
 				
 				updateViewBounds( );
 				break;
@@ -636,18 +639,21 @@ public class Game extends View
 			case 7: //shop
 				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_SHOP );
+				DataContainer.money -= 200;
 				
 				updateViewBounds( );
 				break;
 			case 8: //drenth
 				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
+				DataContainer.money -= 50;
 				
 				updateViewBounds( );
 				break;
 			case 9: //plumbing
 				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
+				DataContainer.money -= 50;
 				
 				updateViewBounds( );
 				break;
