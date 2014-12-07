@@ -223,32 +223,6 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 		}
 	}
 	
-	public void createPopup(Component comp, int x, int y)
-	{
-		JPopupMenu menu = new JPopupMenu("Popup");
-		menu.show(comp, x, y);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    JMenuItem item = new JMenuItem("Test1");
-	    item.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-	        System.out.println("Menu item Test1");
-	      }
-	    });
-	    menu.add(item);
-
-	    item = new JMenuItem("Test2");
-	    item.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-	        System.out.println("Menu item Test2");
-	      }
-	    });
-	    menu.add(item);
-
-	    frame.getContentPane().add(menu);
-	    frame.pack();
-	    frame.setSize(300, 100);
-	}
-	
 	@Override
 	public void keyPressed(KeyEvent arg0)
 	{
