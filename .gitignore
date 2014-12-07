@@ -28,4 +28,8 @@ proguard/
 # Save Files
 save/
 config.snake
+config.snake~
+
+# Git Ignore temp
+.gitignore~
 
