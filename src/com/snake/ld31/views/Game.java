@@ -179,8 +179,6 @@ public class Game extends View
 				
 				if (y < 60 && t == RoomType.ROOM_AIR && DataContainer.rooms[x][y+1].getRoomType() != RoomType.ROOM_AIR && DataContainer.rooms[x][y+1].getRoomType() != RoomType.ROOM_BEAMS)
 					i = roof;
-				else if (t == RoomType.ROOM_AIR)
-					continue;
 				
 				if (i != null)
 					draw.drawImage( i, drawX, drawY, scale, scale, null );

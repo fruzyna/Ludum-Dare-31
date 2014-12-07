@@ -122,8 +122,6 @@ public class Guest
 			{
 				e = DataContainer.rooms[i][startY];
 				closest = i-startX;
-				
-				System.out.println("nearest elevator @ " + i);
 			}
 		}
 		
@@ -133,13 +131,9 @@ public class Guest
 			{
 				e = DataContainer.rooms[i][startY];
 				closest = startX - i;
-				
-				System.out.println("nearest elevator @ " + i);
 			}
 		}
-		
-		System.out.println("elevator says its x is " + e.getX( ));
-		
+			
 		return e;
 	}
 	
