@@ -51,9 +51,11 @@ public class IO
 		}
 		
 		for(int i = 0; i < jrooms.length(); i++)
-		{
+		{	
 			JSONObject jroom = jrooms.getJSONObject(i);
-			DataContainer.rooms[jroom.getInt("room-x")][jroom.getInt("room-y")] = new Room(RoomType.values()[jroom.getInt("room-type")]);
+			int x = jroom.getInt("room-x");
+			int y = jroom.getInt("room-y");
+			DataContainer.rooms[jroom.getInt("room-x")][jroom.getInt("room-y")] = new Room(RoomType.values()[jroom.getInt("room-type")], x, y);
 		}
 		Main.instance.startGame();
 	}

@@ -410,7 +410,7 @@ public class Game extends View
 					if (x == 17 && y == 60)
 						t = RoomType.ROOM_LOBBYEXT;
 					
-					DataContainer.rooms[x][y] = new Room( t );
+					DataContainer.rooms[x][y] = new Room( t, x, y );
 				}
 			}
 		
@@ -477,7 +477,12 @@ public class Game extends View
 						if (gridY > 60)
 							DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_GRASS );
 						else
-							DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_AIR );
+						{
+							if (gridY != 0 && DataContainer.rooms[gridX][gridY-1].getRoomType( ) != RoomType.ROOM_AIR)
+								DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
+							else
+								DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_AIR );
+						}
 					}
 				}
 				

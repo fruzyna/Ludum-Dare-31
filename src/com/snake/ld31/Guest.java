@@ -55,10 +55,28 @@ public class Guest
 				checkInTime = System.currentTimeMillis( );
 			
 			if (checkInTime != 0 && System.currentTimeMillis( ) > checkInTime+1500)
-				hasCheckedIn = true;
+			{
+				hasCheckedIn = true; 
+				elevator = findNearestElevator( hotelRoom.getY( ) );
+				target = hotelRoom;
+			}
 		}
 		else
-			x += ((Main.rnd.nextFloat() * 100.0f) - 50.0f) * delta;
+		{
+			if (target != null)
+			{
+				if (elevator != null && getY() != target.getY())
+				{
+					x += Math.signum((elevator.getX( ) * 128 + 64 ) - x) * delta * 70;
+					if (Math.abs((elevator.getX()*128 + 64) - x) < 5.0f)
+						setY( target.getY() );
+				}
+				else
+				{
+					x += Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70;
+				}
+			}
+		}
 		
 		feet += (x - oldX) * (Main.rnd.nextFloat() * 0.1 + 0.1);
 	}
@@ -68,12 +86,44 @@ public class Guest
 		return (60 - floor);
 	}
 	
-	private Room findNearestElevator( )
+	private void setY( int y )
+	{
+		floor = 60 - y;
+	}
+	
+	private Room findNearestElevator( int targetFloor )
 	{
 		int startX = (int)(x/128.0f);
 		int startY = getY( );
 		
-		return null;
+		int closest = -1;
+		Room e = null;
+		
+		for (int i=startX;i < DataContainer.worldWidth;++i)
+		{
+			if (DataContainer.rooms[i][startY].getRoomType( ) == RoomType.ROOM_ELEVATOR && ((e == null) || (e != null && ((i - startX) < closest) ) ) && (DataContainer.rooms[i][targetFloor].getRoomType() == RoomType.ROOM_ELEVATOR))
+			{
+				e = DataContainer.rooms[i][startY];
+				closest = i-startX;
+				
+				System.out.println("nearest elevator @ " + i);
+			}
+		}
+		
+		for (int i=startX;i > 0;--i)
+		{
+			if (DataContainer.rooms[i][startY].getRoomType( ) == RoomType.ROOM_ELEVATOR && ((e == null) || (e != null && ((startX - i) < closest) ) ) && (DataContainer.rooms[i][targetFloor].getRoomType() == RoomType.ROOM_ELEVATOR))
+			{
+				e = DataContainer.rooms[i][startY];
+				closest = startX - i;
+				
+				System.out.println("nearest elevator @ " + i);
+			}
+		}
+		
+		System.out.println("elevator says its x is " + e.getX( ));
+		
+		return e;
 	}
 	
 	public void onDraw( Graphics2D draw )
