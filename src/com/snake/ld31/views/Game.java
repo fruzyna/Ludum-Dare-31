@@ -1,6 +1,7 @@
 package com.snake.ld31.views;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -66,6 +67,8 @@ public class Game extends View
 	private Color skyColor;
 	private Boolean menuOpen = false;
 		  
+	private long lastTime;
+	
 	@Override
 	public void draw(Graphics2D draw)
 	{				
@@ -91,6 +94,7 @@ public class Game extends View
 				cloud = cloud2;
 			
 			draw.drawImage( cloud, x, (int)( y + Math.sin(Main.ticks/5 + i) * 6), (int)(256.0f * scale), (int)(128.0f * scale), null );
+			
 		}
 		
 		//Draw grid
@@ -231,6 +235,13 @@ public class Game extends View
 			
 			draw.drawImage( j, 80*i + 47 - (int)(iconScale[i] * 64.0f)/2, 47 - (int)(iconScale[i] * 64.0f)/2, (int)(iconScale[i] * 64.0f), (int)(iconScale[i] * 64.0f), null );
 		}
+
+		draw.setFont(new Font("Arial", Font.PLAIN, 25));
+		draw.setColor(Color.YELLOW);
+		draw.drawString("$" + String.valueOf(DataContainer.money), 10, DataContainer.yres - 40);
+		draw.setColor(Color.WHITE);
+		String h = String.format("%.2f", DataContainer.hours);
+		draw.drawString(h + " hours", 10, DataContainer.yres - 10);
 	}
 	
 	public void updateViewBounds( )
@@ -328,7 +339,11 @@ public class Game extends View
 			
 			guests.get(i).onTick( deltaTime );
 		}
+		
+		DataContainer.hours += (float)(System.currentTimeMillis() - lastTime)/60000;
+		lastTime = System.currentTimeMillis();
 	}
+	
 
 	@Override
 	public void init()
@@ -435,6 +450,8 @@ public class Game extends View
 		
 		updateViewBounds( );
 		Main.camera.set( );
+		
+		lastTime = System.currentTimeMillis();
 	}
 
 	@Override

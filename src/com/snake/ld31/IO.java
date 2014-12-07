@@ -42,6 +42,8 @@ public class IO
 		DataContainer.worldName = jsave.getString("world-name");
 		DataContainer.worldHeight = jsave.getInt("world-height");
 		DataContainer.worldWidth = jsave.getInt("world-width");
+		DataContainer.money = jsave.getInt("money");
+		DataContainer.hours = jsave.getDouble("hours");
 		JSONArray jrooms = jsave.getJSONArray("rooms");
 		
 		if (!DataContainer.loaded)
@@ -90,6 +92,8 @@ public class IO
 		jsave.put("world-name", DataContainer.worldName);
 		jsave.put("world-height", DataContainer.worldHeight);
 		jsave.put("world-width", DataContainer.worldWidth);
+		jsave.put("money", DataContainer.money);
+		jsave.put("hours", DataContainer.hours);
 		JSONArray jrooms = new JSONArray();
 		for(int i = 0; i < DataContainer.rooms.length; i++)
 		{
