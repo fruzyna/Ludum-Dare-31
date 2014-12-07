@@ -66,6 +66,7 @@ public class Guest
 		}
 		else
 		{
+			DataContainer.money += .001;
 			if (hotelRoom.getRoomType() != RoomType.ROOM_HOTEL && !leaving)
 			{
 				target = DataContainer.rooms[DataContainer.worldWidth-1][60];
