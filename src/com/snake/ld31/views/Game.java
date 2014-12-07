@@ -178,16 +178,16 @@ public class Game extends View
 				if (i != null)
 					draw.drawImage( i, drawX, drawY, scale, scale, null );
 				
-				if (t == RoomType.ROOM_AIR)
+				if (t == RoomType.ROOM_AIR || t == RoomType.ROOM_BEAMS)
 					continue;
 				
-				if ((x != 0 && DataContainer.rooms[x-1][y].getRoomType( ) == RoomType.ROOM_AIR) || x == 0)
+				if ((x != 0 && (DataContainer.rooms[x-1][y].getRoomType( ) == RoomType.ROOM_AIR || DataContainer.rooms[x-1][y].getRoomType( ) == RoomType.ROOM_BEAMS)) || x == 0)
 				{
 					draw.setColor( Color.black );
 					draw.fillRect( drawX, drawY, scale/32 , scale );
 				}
 				
-				if ((x != DataContainer.worldWidth-1 && DataContainer.rooms[x+1][y].getRoomType( ) == RoomType.ROOM_AIR) || x == DataContainer.worldWidth-1)
+				if ((x != DataContainer.worldWidth-1 && (DataContainer.rooms[x+1][y].getRoomType( ) == RoomType.ROOM_AIR || DataContainer.rooms[x+1][y].getRoomType( ) == RoomType.ROOM_BEAMS)) || x == DataContainer.worldWidth-1)
 				{
 					draw.setColor( Color.black );
 					draw.fillRect( drawX + scale - scale/32, drawY, scale/32 , scale );
@@ -550,9 +550,17 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 12: //beams
-				if ( DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
-					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
+				if (DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR)
+				{
+					if ( DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 				
+					if ( gridX != DataContainer.worldWidth && DataContainer.rooms[gridX+1][gridY].getRoomType() == RoomType.ROOM_BEAMS )
+						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
+					
+					if ( gridX != 0 && DataContainer.rooms[gridX-1][gridY].getRoomType() == RoomType.ROOM_BEAMS)
+						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
+				}
 				updateViewBounds( );
 				break;
 			default:
