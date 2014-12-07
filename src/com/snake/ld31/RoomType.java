@@ -20,4 +20,5 @@ public enum RoomType
 	//wiring closet
 	ROOM_PLUMBING,
 	ROOM_PENTHOUSE,
+	ROOM_OFFICE,
 }

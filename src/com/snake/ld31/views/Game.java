@@ -39,6 +39,20 @@ public class Game extends View
 	private BufferedImage restaurant1;
 	private BufferedImage restaurant2;
 	
+	private BufferedImage theater;
+	
+	private BufferedImage theatre;
+	
+	private BufferedImage shop;
+	
+	private BufferedImage drenth;
+	
+	private BufferedImage plumbing;
+	
+	private BufferedImage penthouse;
+	
+	private BufferedImage office;
+	
 	private BufferedImage icons[ ];
 	private float iconScale[ ];
 	private int selectedIcon;
@@ -121,6 +135,27 @@ public class Game extends View
 						else if (n == 1)
 							i = restaurant2;
 					}
+					break;
+				case ROOM_THEATER:
+					i = theater;
+					break;
+				case ROOM_THEATRE:
+					i = theatre;
+					break;
+				case ROOM_SHOP:
+					i = shop;
+					break;
+				case ROOM_DRENTH:
+					i = drenth;
+					break;
+				case ROOM_PLUMBING:
+					i = plumbing;
+					break;
+				case ROOM_PENTHOUSE:
+					i = penthouse;
+					break;
+				case ROOM_OFFICE:
+					i = office;
 					break;
 				default:
 					i = null;
@@ -259,6 +294,20 @@ public class Game extends View
 		restaurant1 = 	Main.imgLoader.load("restaurant1.png");
 		restaurant2	=	Main.imgLoader.load("restaurant2.png");
 		
+		theater =		Main.imgLoader.load("theater.png");
+		
+		theatre =		Main.imgLoader.load("theatre.png");
+		
+		shop =			Main.imgLoader.load("shop.png");
+		
+		drenth =		Main.imgLoader.load("wiring closet.png");
+		
+		plumbing =		Main.imgLoader.load("plumbing.png");
+		
+		penthouse =		Main.imgLoader.load("penthouse.png");
+		
+		office =		Main.imgLoader.load("office.png");
+		
 		icons =			new BufferedImage[numIcons*2];
 		icons[0] = 		Main.imgLoader.load("icons/icon_delete.png");
 		icons[1] = 		Main.imgLoader.load("icons/icon_delete_selected.png");
@@ -270,6 +319,20 @@ public class Game extends View
 		icons[7] = 		Main.imgLoader.load("icons/icon_hotel_selected.png");
 		icons[8] = 		Main.imgLoader.load("icons/icon_restaurant.png");
 		icons[9] = 		Main.imgLoader.load("icons/icon_restaurant_selected.png");
+		icons[10] = 	Main.imgLoader.load("icons/icon_theater.png");
+		icons[11] = 	Main.imgLoader.load("icons/icon_theater_selected.png");
+		icons[12] = 	Main.imgLoader.load("icons/icon_theatre.png");
+		icons[13] = 	Main.imgLoader.load("icons/icon_theatre_selected.png");
+		icons[14] = 	Main.imgLoader.load("icons/icon_shop.png");
+		icons[15] = 	Main.imgLoader.load("icons/icon_shop_selected.png");
+		icons[16] = 	Main.imgLoader.load("icons/icon_drenth.png");
+		icons[17] = 	Main.imgLoader.load("icons/icon_drenth_selected.png");
+		icons[18] = 	Main.imgLoader.load("icons/icon_plumbing.png");
+		icons[19] = 	Main.imgLoader.load("icons/icon_plumbing_selected.png");
+		icons[20] = 	Main.imgLoader.load("icons/icon_penthouse.png");
+		icons[21] = 	Main.imgLoader.load("icons/icon_penthouse_selected.png");
+		icons[22] = 	Main.imgLoader.load("icons/icon_office.png");
+		icons[23] = 	Main.imgLoader.load("icons/icon_office_selected.png");
 		
 		skyColor = new Color( 142, 255, 253 );
 		
@@ -400,6 +463,48 @@ public class Game extends View
 			case 4: //resturant
 				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_RESTURANT );
+				
+				updateViewBounds( );
+				break;
+			case 5: //theater
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_THEATER);
+				
+				updateViewBounds( );
+				break;
+			case 6: //theatre
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_THEATRE );
+				
+				updateViewBounds( );
+				break;
+			case 7: //shop
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_SHOP );
+				
+				updateViewBounds( );
+				break;
+			case 8: //drenth
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
+				
+				updateViewBounds( );
+				break;
+			case 9: //plumbing
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
+				
+				updateViewBounds( );
+				break;
+			case 10: //penthouse
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PENTHOUSE );
+				
+				updateViewBounds( );
+				break;
+			case 11: //office
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_OFFICE );
 				
 				updateViewBounds( );
 				break;
