@@ -71,7 +71,7 @@ public class IO
 		jsave.put("rooms", jrooms);
 		try
 		{
-			File saveFile = new File("save" + File.separator + DataContainer.worldName);
+			File saveFile = new File("save" + File.separator + DataContainer.worldName + ".snake");
 			saveFile.getParentFile().mkdirs();
 			if(!saveFile.exists()) {
 				saveFile.createNewFile();
