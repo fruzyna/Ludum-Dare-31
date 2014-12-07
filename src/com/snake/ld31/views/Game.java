@@ -366,7 +366,7 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 2: //elevator
-				if(DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR)
+				if(DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR)
 					DataContainer.rooms[gridX][gridY].setType(RoomType.ROOM_ELEVATOR);
 				updateViewBounds();
 				break;
