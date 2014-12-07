@@ -52,6 +52,9 @@ public class IO
 	
 	public static void saveSave()
 	{
+		if (DataContainer.rooms == null)
+			return;
+		
 		JSONObject jsave = new JSONObject();
 		jsave.put("world-name", DataContainer.worldName);
 		jsave.put("world-height", DataContainer.worldHeight);

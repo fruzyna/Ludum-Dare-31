@@ -21,10 +21,10 @@ public class Camera
 	
 	public void update( float timestep )
 	{
-		aX += (x - aX) * timestep;
-		aY += (y - aY) * timestep;
+		aX += (x - aX) * timestep * 5;
+		aY += (y - aY) * timestep * 5;
 		
-		aScale += (scale - aScale) * timestep;
+		aScale += (scale - aScale) * timestep * 5;
 	}
 	
 	public void set( )
@@ -81,7 +81,7 @@ public class Camera
 	
 	public void setCameraRect( float centerX, float centerY, float width, float height )
 	{
-		this.x = centerX + (128 * getScale())/2;
+		this.x = centerX;
 		this.y = centerY;
 		
 		float w = width( ) / width;

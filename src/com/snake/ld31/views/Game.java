@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.Vector;
 
 import javax.swing.JFrame;
 import javax.swing.JPopupMenu;
@@ -16,11 +17,12 @@ import com.snake.ld31.Main;
 import com.snake.ld31.Room;
 import com.snake.ld31.RoomType;
 import com.snake.ld31.View;
+import com.snake.ld31.Guest;
 
 @SuppressWarnings("unused")
 public class Game extends View
 {
-	private final int numIcons = 5;
+	private final int numIcons = 12;
 	private final int numRestaurant = 2;
 	
 	private BufferedImage grass;
@@ -35,27 +37,25 @@ public class Game extends View
 	
 	private BufferedImage elevator;
 	private BufferedImage hotel;
-
+	private BufferedImage theater;
+	private BufferedImage theatre;
+	private BufferedImage shop;
+	private BufferedImage drenth;
+	private BufferedImage plumbing;
+	private BufferedImage penthouse;
+	private BufferedImage office;
+	
 	private BufferedImage restaurant1;
 	private BufferedImage restaurant2;
-	
-	private BufferedImage theater;
-	
-	private BufferedImage theatre;
-	
-	private BufferedImage shop;
-	
-	private BufferedImage drenth;
-	
-	private BufferedImage plumbing;
-	
-	private BufferedImage penthouse;
-	
-	private BufferedImage office;
 	
 	private BufferedImage icons[ ];
 	private float iconScale[ ];
 	private int selectedIcon;
+	
+	private Vector<Guest> guests;
+	private Vector<Room> openHotels;
+	private int guestTarget;
+	private long lastGuestAdded = 0;
 	
 	private float targetScale = 1.0f;
 	
@@ -184,6 +184,11 @@ public class Game extends View
 			}
 		}
 		
+		for (int i=0;i < guests.size( );++i)
+		{
+			guests.get(i).onDraw( draw );
+		}
+		
 		if (selectedIcon != -1)
 		{
 			int localX, localY;
@@ -248,18 +253,32 @@ public class Game extends View
 		
 		minX--;
 		maxX++;
-		minY--;
+		minY -= 2;
 		maxY++;
 			
 		float middleX = ((float)minX + (float)maxX)/2;
 		float middleY = ((float)minY + (float)maxY)/2;
 		
-		float width = (maxX - middleX)*2;
-		float height = (maxY - middleY)*2;
+		float width = Math.max( (maxX - middleX)*2.0f, (middleX - minX)*2.0f );
+		float height = Math.max( (maxY - middleY)*2.0f, (middleY - minY)*2.0f );
 		
 		float scale = Math.max( width, height );
 		
-		Main.camera.setCameraRect( (middleX - scale/2 - 0.5f)*128, (middleY - scale/2)*128, scale*128, scale*128 );		
+		float xAdd = 0;
+		float yAdd = 0;
+		
+		if (width > height)
+			xAdd = (width - height) * 32;
+		else
+			yAdd = (height - width) * 32;
+		
+		Main.camera.setCameraRect( middleX*128.0f - (scale * 64.0f) - xAdd, (middleY - scale/2.0f)*128 - yAdd, scale*128, scale*128 );
+	}
+	
+	public void addGuest( Room hotel )
+	{
+		openHotels.add( hotel );
+		guestTarget++;
 	}
 	
 	@Override
@@ -271,6 +290,17 @@ public class Game extends View
 				iconScale[i] += (1.2 - iconScale[i]) * deltaTime * 16;
 			else
 				iconScale[i] += (1.0 - iconScale[i]) * deltaTime * 16;
+		}
+		
+		if (guests.size() < guestTarget && !openHotels.isEmpty() && System.currentTimeMillis() > lastGuestAdded + 3500)
+		{
+			guests.addElement( new Guest( openHotels.remove( openHotels.size()-1 ) ) );
+			lastGuestAdded = System.currentTimeMillis() - Main.rnd.nextInt( 200 );
+		}
+		
+		for (int i=0;i < guests.size( );++i)
+		{
+			guests.get(i).onTick( deltaTime );
 		}
 	}
 
@@ -287,25 +317,17 @@ public class Game extends View
 		lobbyEmpty =	Main.imgLoader.load("lobby_empty.png");
 		lobbyCouch =	Main.imgLoader.load("lobby_couch.png");
 		
-		elevator =		Main.imgLoader.load("elevator.png");
-		
-		hotel =			Main.imgLoader.load("hotel.png");
-		
 		restaurant1 = 	Main.imgLoader.load("restaurant1.png");
 		restaurant2	=	Main.imgLoader.load("restaurant2.png");
 		
+		elevator =		Main.imgLoader.load("elevator.png");
+		hotel =			Main.imgLoader.load("hotel.png");
 		theater =		Main.imgLoader.load("theater.png");
-		
 		theatre =		Main.imgLoader.load("theatre.png");
-		
 		shop =			Main.imgLoader.load("shop.png");
-		
-		drenth =		Main.imgLoader.load("wiring closet.png");
-		
+		drenth =		Main.imgLoader.load("electrical_closet.png");
 		plumbing =		Main.imgLoader.load("plumbing.png");
-		
 		penthouse =		Main.imgLoader.load("penthouse.png");
-		
 		office =		Main.imgLoader.load("office.png");
 		
 		icons =			new BufferedImage[numIcons*2];
@@ -340,6 +362,9 @@ public class Game extends View
 		iconScale = new float[numIcons];
 		
 		for (int i=0;i < numIcons;++i){ iconScale[i] = 1.0f; }
+		
+		guests = new Vector<Guest>( );
+		openHotels = new Vector<Room>( );
 		
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );
 		Main.camera.x = 2112 - Main.instance.getScrWidth( ) / 2;
@@ -459,6 +484,7 @@ public class Game extends View
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_HOTEL );
 				
 				updateViewBounds( );
+				addGuest( DataContainer.rooms[gridX][gridY] );
 				break;
 			case 4: //resturant
 				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
@@ -485,13 +511,15 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 8: //drenth
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR ||
+					 DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_GRASS && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
 				
 				updateViewBounds( );
 				break;
 			case 9: //plumbing
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR ||
+					 DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_GRASS && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
 				
 				updateViewBounds( );

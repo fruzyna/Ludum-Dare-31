@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,6 +31,7 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 	public static Camera camera;
 	public static int mouseX, mouseY;
 	public static float ticks;
+	public static Random rnd;
 	
 	private long deltaTime;
 	
@@ -113,6 +115,8 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 		imgLoader = new ImageLoader( );
 		
 		camera = new Camera( );
+		
+		rnd = new Random( );
 		
 		goToLogo();
 		paint.addMouseListener(this);
