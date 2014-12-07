@@ -70,8 +70,10 @@ public class Guest
 	
 	private Room findNearestElevator( )
 	{
-		int startX = x/128;
-		itn startY = getY( );
+		int startX = (int)(x/128.0f);
+		int startY = getY( );
+		
+		return null;
 	}
 	
 	public void onDraw( Graphics2D draw )
