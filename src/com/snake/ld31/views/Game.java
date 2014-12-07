@@ -24,9 +24,6 @@ public class Game extends View
 	
 	private BufferedImage grass;
 	private BufferedImage dirt;
-	private BufferedImage arrowLeft;
-	private BufferedImage arrowRight;
-	private BufferedImage arrowUp;
 	
 	private BufferedImage cloud1;
 	private BufferedImage cloud2;
@@ -229,9 +226,6 @@ public class Game extends View
 	{
 		grass =			Main.imgLoader.load("grass.png");
 		dirt = 			Main.imgLoader.load("dirt.png");
-		arrowLeft = 	Main.imgLoader.load("arrow_left.png");
-		arrowRight = 	Main.imgLoader.load("arrow_right.png");
-		arrowUp	=		Main.imgLoader.load("arrow_up.png");
 		
 		cloud1 =		Main.imgLoader.load("cloud.png");
 		cloud2 =		Main.imgLoader.load("cloud2.png");
