@@ -8,4 +8,5 @@ public enum RoomType
 	ROOM_GRASS,
 	ROOM_LOBBYBASE,
 	ROOM_LOBBYEXT,
+	ROOM_ELEVATOR,
 };

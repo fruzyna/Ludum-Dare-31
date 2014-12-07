@@ -20,7 +20,7 @@ import com.snake.ld31.View;
 @SuppressWarnings("unused")
 public class Game extends View
 {
-	private final int numIcons = 2;
+	private final int numIcons = 3;
 	
 	private BufferedImage grass;
 	private BufferedImage dirt;
@@ -103,6 +103,9 @@ public class Game extends View
 						i = lobbyEmpty;
 					else
 						i = lobbyCouch;
+					break;
+				case ROOM_ELEVATOR:
+					i = elevator;
 					break;
 				default:
 					i = null;
@@ -244,6 +247,8 @@ public class Game extends View
 		icons[1] = 		Main.imgLoader.load("icons/icon_delete_selected.png");
 		icons[2] = 		Main.imgLoader.load("icons/icon_lobby.png");
 		icons[3] =		Main.imgLoader.load("icons/icon_lobby_selected.png");
+		icons[4] = 		Main.imgLoader.load("icons/icon_elevator.png");
+		icons[5] =		Main.imgLoader.load("icons/icon_elevator_selected.png");
 		
 		skyColor = new Color( 142, 255, 253 );
 		
@@ -306,7 +311,8 @@ public class Game extends View
 
 	@Override
 	public void mouseClick(MouseEvent e)
-	{   
+	{
+        
         if (e.getY( ) >= 15 && e.getY( ) <= 79)
         {        	
         	for (int i=0;i < numIcons;++i)
@@ -358,6 +364,11 @@ public class Game extends View
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_LOBBYEXT );
 				
 				updateViewBounds( );
+				break;
+			case 2: //elevator
+				if(DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR)
+					DataContainer.rooms[gridX][gridY].setType(RoomType.ROOM_ELEVATOR);
+				updateViewBounds();
 				break;
 			default:
 				break;
