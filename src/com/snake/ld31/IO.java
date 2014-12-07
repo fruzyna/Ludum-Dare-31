@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -45,10 +46,12 @@ public class IO
 		DataContainer.money = jsave.getInt("money");
 		DataContainer.hours = jsave.getDouble("hours");
 		JSONArray jrooms = jsave.getJSONArray("rooms");
+		JSONArray jguests = jsave.getJSONArray("guests");
 		
 		if (!DataContainer.loaded)
 		{
 			DataContainer.rooms = new Room[ DataContainer.worldWidth ][ DataContainer.worldHeight ];
+			DataContainer.guests = new Vector<Guest>( );
 			DataContainer.loaded = true;
 		}
 		
@@ -59,6 +62,25 @@ public class IO
 			int y = jroom.getInt("room-y");
 			DataContainer.rooms[jroom.getInt("room-x")][jroom.getInt("room-y")] = new Room(RoomType.values()[jroom.getInt("room-type")], x, y);
 		}
+		
+		for (int i=0;i < jguests.length(); ++i)
+		{
+			JSONObject jguest = jguests.getJSONObject(i);
+			int x = jguest.getInt("guest-x");
+			int y = jguest.getInt("guest-y");
+			
+			int hx = jguest.getInt("guest-hotel-x");
+			int hy = jguest.getInt("guest-hotel-y");
+			
+			Guest g = new Guest( DataContainer.rooms[hx][hy] );
+			g.hasCheckedIn = true;
+			g.x = x;
+			g.setY( y );
+			g.goToHotelRoom( );
+			
+			DataContainer.guests.add( g );
+		}
+		
 		Main.instance.startGame();
 	}
 	
@@ -107,6 +129,22 @@ public class IO
 			}
 		}
 		jsave.put("rooms", jrooms);
+		
+		JSONArray jguests = new JSONArray();
+		for (int i=0;i < DataContainer.guests.size();++i)
+		{
+			Guest g = DataContainer.guests.get(i);
+			
+			JSONObject jguest = new JSONObject( );
+			jguest.put("guest-x", g.getX( ) );
+			jguest.put("guest-y", g.getY( ) );
+			jguest.put("guest-hotel-x", g.hotelRoom.getX( ) );
+			jguest.put("guest-hotel-y", g.hotelRoom.getY( ) );
+			
+			jguests.put( jguest );
+		}
+		jsave.put("guests", jguests);
+		
 		try
 		{
 			File saveFile = new File("save" + File.separator + DataContainer.worldName + ".snake");

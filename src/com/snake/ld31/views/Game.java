@@ -407,7 +407,14 @@ public class Game extends View
 		
 		for (int i=0;i < numIcons;++i){ iconScale[i] = 1.0f; }
 		
-		guests = new Vector<Guest>( );
+		if (DataContainer.guests != null)
+			guests = DataContainer.guests;
+		else
+		{
+			DataContainer.guests = new Vector<Guest>( );
+			guests = DataContainer.guests;
+		}
+		
 		openHotels = new Vector<Room>( );
 		
 		Main.camera.y = 8192 - Main.instance.getScrHeight( );

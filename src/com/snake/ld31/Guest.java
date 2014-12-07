@@ -5,9 +5,9 @@ import java.awt.Graphics2D;
 
 public class Guest
 {
-	private float x;
+	public float x;
 	private int floor;
-	private boolean hasCheckedIn;
+	public boolean hasCheckedIn;
 	private boolean leaving;
 	
 	public Room hotelRoom;
@@ -60,8 +60,7 @@ public class Guest
 			if (checkInTime != 0 && System.currentTimeMillis( ) > checkInTime+1500)
 			{
 				hasCheckedIn = true; 
-				elevator = findNearestElevator( hotelRoom.getY( ) );
-				target = hotelRoom;
+				goToHotelRoom( );
 			}
 		}
 		else
@@ -98,14 +97,25 @@ public class Guest
 		feet += (x - oldX) * (Main.rnd.nextFloat() * 0.1 + 0.1);
 	}
 	
-	private int getY( )
+	public int getY( )
 	{
 		return (60 - floor);
 	}
 	
-	private void setY( int y )
+	public int getX( )
+	{
+		return (int)x;
+	}
+	
+	public void setY( int y )
 	{
 		floor = 60 - y;
+	}
+	
+	public void goToHotelRoom( )
+	{
+		elevator = findNearestElevator( hotelRoom.getY( ) );
+		target = hotelRoom;
 	}
 	
 	private Room findNearestElevator( int targetFloor )

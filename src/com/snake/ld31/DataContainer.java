@@ -1,5 +1,7 @@
 package com.snake.ld31;
 
+import java.util.Vector;
+
 public class DataContainer
 {
 	public static boolean loaded = false;
@@ -9,6 +11,7 @@ public class DataContainer
 	public static int worldHeight;
 	
 	public static Room[][] rooms;
+	public static Vector<Guest> guests;
 	
 	public static int money;
 	
