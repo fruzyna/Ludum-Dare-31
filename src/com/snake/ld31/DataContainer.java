@@ -10,6 +10,10 @@ public class DataContainer
 	
 	public static Room[][] rooms;
 	
+	public static int money;
+	
+	public static double hours;
+	
 	public static int xres;
 	public static int yres;
 }
