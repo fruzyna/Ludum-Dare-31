@@ -28,6 +28,7 @@ public class Game extends View
 	
 	private BufferedImage grass;
 	private BufferedImage dirt;
+	private BufferedImage roof;
 	
 	private BufferedImage cloud1;
 	private BufferedImage cloud2;
@@ -98,10 +99,7 @@ public class Game extends View
 			for (int y=0;y < DataContainer.worldHeight;++y)
 			{
 				RoomType t = DataContainer.rooms[x][y].getRoomType();
-				
-				if (t == RoomType.ROOM_AIR && y != 60)
-					continue;
-				
+								
 				int drawX = (int)Main.camera.getRasterX( x * 128 );
 				int drawY = (int)Main.camera.getRasterY( y * 128 );
 				
@@ -174,6 +172,11 @@ public class Game extends View
 				
 				if (y == 60 && t == RoomType.ROOM_AIR)
 					i = grass;
+				
+				if (y < 60 && t == RoomType.ROOM_AIR && DataContainer.rooms[x][y+1].getRoomType() != RoomType.ROOM_AIR && DataContainer.rooms[x][y+1].getRoomType() != RoomType.ROOM_BEAMS)
+					i = roof;
+				else if (t == RoomType.ROOM_AIR)
+					continue;
 				
 				if (i != null)
 					draw.drawImage( i, drawX, drawY, scale, scale, null );
@@ -311,6 +314,18 @@ public class Game extends View
 		
 		for (int i=0;i < guests.size( );++i)
 		{
+			if (guests.get(i).delete)
+			{
+				if (guests.get(i).hotelRoom.getRoomType( ) == RoomType.ROOM_HOTEL)
+					addGuest( guests.get(i).hotelRoom );
+				
+				guests.get(i).delete = false;
+				guests.remove(i);
+				
+				--i;
+				continue;
+			}
+			
 			guests.get(i).onTick( deltaTime );
 		}
 	}
@@ -320,6 +335,7 @@ public class Game extends View
 	{
 		grass =			Main.imgLoader.load("grass.png");
 		dirt = 			Main.imgLoader.load("dirt.png");
+		roof = 			Main.imgLoader.load("roof.png");
 		
 		cloud1 =		Main.imgLoader.load("cloud.png");
 		cloud2 =		Main.imgLoader.load("cloud2.png");

@@ -8,8 +8,9 @@ public class Guest
 	private float x;
 	private int floor;
 	private boolean hasCheckedIn;
+	private boolean leaving;
 	
-	private Room hotelRoom;
+	public Room hotelRoom;
 	private Room target;
 	private Room elevator;
 	
@@ -19,6 +20,8 @@ public class Guest
 	private float feet;
 	
 	private Color face, top, bottom;
+	
+	public boolean delete;
 	
 	public Guest( Room hotelRoom )
 	{
@@ -63,6 +66,12 @@ public class Guest
 		}
 		else
 		{
+			if (hotelRoom.getRoomType() != RoomType.ROOM_HOTEL && !leaving)
+			{
+				target = DataContainer.rooms[DataContainer.worldWidth-1][60];
+				leaving = true;
+			}
+			
 			if (target != null)
 			{
 				if (elevator != null && getY() != target.getY())
@@ -73,7 +82,15 @@ public class Guest
 				}
 				else
 				{
-					x += Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70;
+					if (Math.abs((target.getX()*128 + 64) - x) < 5.0f)
+					{
+						if (leaving)
+						{
+							delete = true;
+						}
+					}
+					else
+						x += Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70;
 				}
 			}
 		}
