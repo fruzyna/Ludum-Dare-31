@@ -20,7 +20,7 @@ import com.snake.ld31.View;
 @SuppressWarnings("unused")
 public class Game extends View
 {
-	private final int numIcons = 5;
+	private final int numIcons = 12;
 	private final int numRestaurant = 2;
 	
 	private BufferedImage grass;
@@ -300,7 +300,7 @@ public class Game extends View
 		
 		shop =			Main.imgLoader.load("shop.png");
 		
-		drenth =		Main.imgLoader.load("wiring closet.png");
+		drenth =		Main.imgLoader.load("electrical_closet.png");
 		
 		plumbing =		Main.imgLoader.load("plumbing.png");
 		
