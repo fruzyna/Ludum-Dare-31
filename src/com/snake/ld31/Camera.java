@@ -81,7 +81,7 @@ public class Camera
 	
 	public void setCameraRect( float centerX, float centerY, float width, float height )
 	{
-		this.x = centerX;
+		this.x = centerX + (128 * getScale())/2;
 		this.y = centerY;
 		
 		float w = width( ) / width;
