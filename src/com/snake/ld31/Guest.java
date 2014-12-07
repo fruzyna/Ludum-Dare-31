@@ -10,6 +10,8 @@ public class Guest
 	private boolean hasCheckedIn;
 	
 	private Room hotelRoom;
+	private Room target;
+	private Room elevator;
 	
 	private int hunger, entertainment, sleep;
 	
@@ -27,6 +29,8 @@ public class Guest
 		checkInTime = 0;
 		
 		this.hotelRoom = hotelRoom;
+		target = null;
+		elevator = null;
 		
 		hunger = Main.rnd.nextInt(100);
 		entertainment = Main.rnd.nextInt(100);
@@ -57,6 +61,17 @@ public class Guest
 			x += ((Main.rnd.nextFloat() * 100.0f) - 50.0f) * delta;
 		
 		feet += (x - oldX) * (Main.rnd.nextFloat() * 0.1 + 0.1);
+	}
+	
+	private int getY( )
+	{
+		return (60 - floor);
+	}
+	
+	private Room findNearestElevator( )
+	{
+		int startX = x/128;
+		itn startY = getY( );
 	}
 	
 	public void onDraw( Graphics2D draw )
