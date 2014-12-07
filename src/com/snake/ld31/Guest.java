@@ -58,7 +58,11 @@ public class Guest
 				hasCheckedIn = true;
 		}
 		else
+		{
 			x += ((Main.rnd.nextFloat() * 100.0f) - 50.0f) * delta;
+			//definitely will need to be adjusted
+			DataContainer.money += .001;
+		}
 		
 		feet += (x - oldX) * (Main.rnd.nextFloat() * 0.1 + 0.1);
 	}

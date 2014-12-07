@@ -42,7 +42,7 @@ public class IO
 		DataContainer.worldName = jsave.getString("world-name");
 		DataContainer.worldHeight = jsave.getInt("world-height");
 		DataContainer.worldWidth = jsave.getInt("world-width");
-		DataContainer.money = jsave.getInt("money");
+		DataContainer.money = jsave.getDouble("money");
 		DataContainer.hours = jsave.getDouble("hours");
 		JSONArray jrooms = jsave.getJSONArray("rooms");
 		

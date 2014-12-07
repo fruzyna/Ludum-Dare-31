@@ -235,7 +235,8 @@ public class Game extends View
 
 		draw.setFont(new Font("Arial", Font.PLAIN, 25));
 		draw.setColor(Color.YELLOW);
-		draw.drawString("$" + String.valueOf(DataContainer.money), 10, DataContainer.yres - 40);
+		String m = String.format("%.0f", DataContainer.money);
+		draw.drawString("$" + m, 10, DataContainer.yres - 40);
 		draw.setColor(Color.WHITE);
 		String h = String.format("%.2f", DataContainer.hours);
 		draw.drawString(h + " hours", 10, DataContainer.yres - 10);
@@ -517,6 +518,7 @@ public class Game extends View
 				
 				updateViewBounds( );
 				addGuest( DataContainer.rooms[gridX][gridY] );
+				DataContainer.money -= 100;
 				break;
 			case 4: //resturant
 				if ( canBeRoom(gridX, gridY) )
