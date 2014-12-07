@@ -13,7 +13,7 @@ public class DataContainer
 	public static Room[][] rooms;
 	public static Vector<Guest> guests;
 	
-	public static int money;
+	public static double money;
 	
 	public static double hours;
 	
