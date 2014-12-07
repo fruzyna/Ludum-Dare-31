@@ -21,4 +21,5 @@ public enum RoomType
 	ROOM_PLUMBING,
 	ROOM_PENTHOUSE,
 	ROOM_OFFICE,
+	ROOM_BEAMS,
 }

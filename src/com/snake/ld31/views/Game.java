@@ -22,8 +22,9 @@ import com.snake.ld31.Guest;
 @SuppressWarnings("unused")
 public class Game extends View
 {
-	private final int numIcons = 12;
+	private final int numIcons = 13;
 	private final int numRestaurant = 2;
+	private final int numShop = 1;
 	
 	private BufferedImage grass;
 	private BufferedImage dirt;
@@ -47,6 +48,8 @@ public class Game extends View
 	
 	private BufferedImage restaurant1;
 	private BufferedImage restaurant2;
+
+	private BufferedImage beams;
 	
 	private BufferedImage icons[ ];
 	private float iconScale[ ];
@@ -143,8 +146,13 @@ public class Game extends View
 					i = theatre;
 					break;
 				case ROOM_SHOP:
-					i = shop;
-					break;
+				{
+					int n = (y * DataContainer.worldWidth + x) % numShop;
+					
+					if (n == 0)
+						i = shop;
+				}
+				break;
 				case ROOM_DRENTH:
 					i = drenth;
 					break;
@@ -156,6 +164,9 @@ public class Game extends View
 					break;
 				case ROOM_OFFICE:
 					i = office;
+					break;
+				case ROOM_BEAMS:
+					i = beams;
 					break;
 				default:
 					i = null;
@@ -330,6 +341,8 @@ public class Game extends View
 		penthouse =		Main.imgLoader.load("penthouse.png");
 		office =		Main.imgLoader.load("office.png");
 		
+		beams =			Main.imgLoader.load("beams.png");
+		
 		icons =			new BufferedImage[numIcons*2];
 		icons[0] = 		Main.imgLoader.load("icons/icon_delete.png");
 		icons[1] = 		Main.imgLoader.load("icons/icon_delete_selected.png");
@@ -355,6 +368,8 @@ public class Game extends View
 		icons[21] = 	Main.imgLoader.load("icons/icon_penthouse_selected.png");
 		icons[22] = 	Main.imgLoader.load("icons/icon_office.png");
 		icons[23] = 	Main.imgLoader.load("icons/icon_office_selected.png");
+		icons[24] = 	Main.imgLoader.load("icons/icon_beams.png");
+		icons[25] = 	Main.imgLoader.load("icons/icon_beams_selected.png");
 		
 		skyColor = new Color( 142, 255, 253 );
 		
@@ -475,64 +490,68 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 2: //elevator
-				if(DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR)
+				if( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType(RoomType.ROOM_ELEVATOR);
 				updateViewBounds();
 				break;
 			case 3: //hotel
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_HOTEL );
 				
 				updateViewBounds( );
 				addGuest( DataContainer.rooms[gridX][gridY] );
 				break;
 			case 4: //resturant
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_RESTURANT );
 				
 				updateViewBounds( );
 				break;
 			case 5: //theater
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_THEATER);
 				
 				updateViewBounds( );
 				break;
 			case 6: //theatre
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_THEATRE );
 				
 				updateViewBounds( );
 				break;
 			case 7: //shop
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_SHOP );
 				
 				updateViewBounds( );
 				break;
 			case 8: //drenth
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR ||
-					 DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_GRASS && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
 				
 				updateViewBounds( );
 				break;
 			case 9: //plumbing
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR ||
-					 DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_GRASS && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
 				
 				updateViewBounds( );
 				break;
 			case 10: //penthouse
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY)  )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PENTHOUSE );
 				
 				updateViewBounds( );
 				break;
 			case 11: //office
-				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_OFFICE );
+				
+				updateViewBounds( );
+				break;
+			case 12: //beams
+				if ( DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 				
 				updateViewBounds( );
 				break;
@@ -540,5 +559,17 @@ public class Game extends View
 				break;
 			}
         }
+	}
+	
+	private boolean canBeRoom(int gridX, int gridY)
+	{
+		if((DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR || DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_BEAMS) && (DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR || DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_BEAMS))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
