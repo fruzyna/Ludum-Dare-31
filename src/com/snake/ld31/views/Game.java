@@ -20,13 +20,11 @@ import com.snake.ld31.View;
 @SuppressWarnings("unused")
 public class Game extends View
 {
-	private final int numIcons = 3;
+	private final int numIcons = 5;
+	private final int numRestaurant = 2;
 	
 	private BufferedImage grass;
 	private BufferedImage dirt;
-	private BufferedImage arrowLeft;
-	private BufferedImage arrowRight;
-	private BufferedImage arrowUp;
 	
 	private BufferedImage cloud1;
 	private BufferedImage cloud2;
@@ -36,6 +34,10 @@ public class Game extends View
 	private BufferedImage lobbyCouch;
 	
 	private BufferedImage elevator;
+	private BufferedImage hotel;
+
+	private BufferedImage restaurant1;
+	private BufferedImage restaurant2;
 	
 	private BufferedImage icons[ ];
 	private float iconScale[ ];
@@ -106,6 +108,19 @@ public class Game extends View
 					break;
 				case ROOM_ELEVATOR:
 					i = elevator;
+					break;
+				case ROOM_HOTEL:
+					i = hotel;
+					break;
+				case ROOM_RESTURANT:
+					{
+						int n = (y * DataContainer.worldWidth + x) % numRestaurant;
+						
+						if (n == 0)
+							i = restaurant1;
+						else if (n == 1)
+							i = restaurant2;
+					}
 					break;
 				default:
 					i = null;
@@ -229,9 +244,6 @@ public class Game extends View
 	{
 		grass =			Main.imgLoader.load("grass.png");
 		dirt = 			Main.imgLoader.load("dirt.png");
-		arrowLeft = 	Main.imgLoader.load("arrow_left.png");
-		arrowRight = 	Main.imgLoader.load("arrow_right.png");
-		arrowUp	=		Main.imgLoader.load("arrow_up.png");
 		
 		cloud1 =		Main.imgLoader.load("cloud.png");
 		cloud2 =		Main.imgLoader.load("cloud2.png");
@@ -242,6 +254,11 @@ public class Game extends View
 		
 		elevator =		Main.imgLoader.load("elevator.png");
 		
+		hotel =			Main.imgLoader.load("hotel.png");
+		
+		restaurant1 = 	Main.imgLoader.load("restaurant1.png");
+		restaurant2	=	Main.imgLoader.load("restaurant2.png");
+		
 		icons =			new BufferedImage[numIcons*2];
 		icons[0] = 		Main.imgLoader.load("icons/icon_delete.png");
 		icons[1] = 		Main.imgLoader.load("icons/icon_delete_selected.png");
@@ -249,6 +266,10 @@ public class Game extends View
 		icons[3] =		Main.imgLoader.load("icons/icon_lobby_selected.png");
 		icons[4] = 		Main.imgLoader.load("icons/icon_elevator.png");
 		icons[5] =		Main.imgLoader.load("icons/icon_elevator_selected.png");
+		icons[6] =		Main.imgLoader.load("icons/icon_hotel.png");
+		icons[7] = 		Main.imgLoader.load("icons/icon_hotel_selected.png");
+		icons[8] = 		Main.imgLoader.load("icons/icon_restaurant.png");
+		icons[9] = 		Main.imgLoader.load("icons/icon_restaurant_selected.png");
 		
 		skyColor = new Color( 142, 255, 253 );
 		
@@ -369,6 +390,18 @@ public class Game extends View
 				if(DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR)
 					DataContainer.rooms[gridX][gridY].setType(RoomType.ROOM_ELEVATOR);
 				updateViewBounds();
+				break;
+			case 3: //hotel
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_HOTEL );
+				
+				updateViewBounds( );
+				break;
+			case 4: //resturant
+				if ( DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_RESTURANT );
+				
+				updateViewBounds( );
 				break;
 			default:
 				break;
