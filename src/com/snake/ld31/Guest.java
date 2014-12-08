@@ -91,15 +91,26 @@ public class Guest
 						}
 						else if (target.getRoomType() == RoomType.ROOM_HOTEL)
 						{
-							sleep += delta * 5;
-							
-							if (sleep >= 100)
-								goToRestaurant( );
+							double time = DataContainer.hours;
+							if((time > 11 && time < 13.5) || (time > 6 && time < 9) || (time > 17 && time < 20) )
+							{
+								int rand = (int)(Math.random()*10000);
+								if (rand == 69)
+									goToRestaurant( );
+							}
+							else
+							{
+								goToHotelRoom();
+							}
 						}
 					}
 					else
 						x += Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70;
 				}
+			}
+			if(DataContainer.hours >= 21)
+			{
+				goToHotelRoom();
 			}
 		}
 		
