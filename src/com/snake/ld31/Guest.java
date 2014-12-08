@@ -66,6 +66,7 @@ public class Guest
 		}
 		else
 		{
+			double time = DataContainer.hours;
 			DataContainer.money += .001;
 			if (hotelRoom.getRoomType() != RoomType.ROOM_HOTEL && !leaving)
 			{
@@ -75,7 +76,6 @@ public class Guest
 			
 			if (target != null)
 			{
-				System.out.println(target.getRoomType());
 				if (elevator != null && getY() != target.getY())
 				{
 					x += (Math.signum((elevator.getX( ) * 128 + 64 ) - x) * delta * 70);
@@ -86,7 +86,6 @@ public class Guest
 				{
 					if (Math.abs((target.getX()*128 + 64) - x) < 5.0f)
 					{
-						double time = DataContainer.hours;
 						if (leaving)
 						{
 							delete = true;
@@ -95,17 +94,23 @@ public class Guest
 						{
 							if((time > 11 && time < 13.5) || (time > 6 && time < 9) || (time > 17 && time < 20) )
 							{
+								//1 in 10,000 chance to eat during appropriate times
 								int rand = (int)(Math.random()*10000);
+								if (rand == 69)
+									goToRestaurant( );
+							}
+							else if(time > 9)
+							{
+								//1 in 50,000 chance to shop after breakfast
+								int rand = (int)(Math.random()*50000);
 								if (rand == 69)
 									goToRestaurant( );
 							}
 						}
 						else if(target.getRoomType() == RoomType.ROOM_RESTURANT)
 						{
-							System.out.println("Target is resturant");
 							if(time < 6 || time > 20 || (time > 9 && time < 11) || (time > 13.5 && time < 17))
 							{
-								System.out.println("Going to hotel room");
 								goToHotelRoom();
 							}
 						}
@@ -115,6 +120,27 @@ public class Guest
 						x += (Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70);
 					}
 				}
+			}
+			
+			if(findRestaurant() == null)
+			{
+				//1 in 50,000 to leave if there is no food
+				int rand = (int)(Math.random()*50000);
+				if (rand == 69)
+					leaving = true;
+			}
+			
+			if(findShop() == null)
+			{
+				//1 in 100,000 to leave if there is no shop
+				int rand = (int)(Math.random()*100000);
+				if (rand == 69)
+					leaving = true;
+			}
+			
+			if(time > 22)
+			{
+				goToHotelRoom();
 			}
 		}
 		
@@ -141,7 +167,7 @@ public class Guest
 		elevator = findNearestElevator( hotelRoom.getY( ) );
 		target = hotelRoom;
 	}
-	
+
 	public void goToRestaurant( )
 	{
 		Room r = findRestaurant( );
@@ -153,6 +179,17 @@ public class Guest
 		target = r;
 	}
 	
+	public void goToShop( )
+	{
+		Room r = findShop( );
+		
+		if (r == null)
+			return;
+		
+		elevator = findNearestElevator( r.getY( ) );
+		target = r;
+	}
+
 	//gets a random restaurant
 	private Room findRestaurant( )
 	{
@@ -171,6 +208,26 @@ public class Guest
 			return null;
 		
 		return restaurants.elementAt( Main.rnd.nextInt( restaurants.size() ) );
+	}
+	
+	//gets a random shop
+	private Room findShop( )
+	{
+		Vector<Room> shops = new Vector<Room>( );
+		
+		for (int x=0;x < DataContainer.worldWidth;++x)
+		{
+			for (int y=0;y < DataContainer.worldHeight;++y)
+			{
+				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_SHOP)
+					shops.add( DataContainer.rooms[x][y] );
+			}
+		}
+		
+		if (shops.isEmpty())
+			return null;
+		
+		return shops.elementAt( Main.rnd.nextInt( shops.size() ) );
 	}
 	
 	private Room findNearestElevator( int targetFloor )
