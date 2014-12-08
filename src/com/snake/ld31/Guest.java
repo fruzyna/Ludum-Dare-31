@@ -75,10 +75,10 @@ public class Guest
 			
 			if (target != null)
 			{
+				System.out.println(target.getRoomType());
 				if (elevator != null && getY() != target.getY())
 				{
-					int rand = (int)(Math.random()*3);
-					x += (Math.signum((elevator.getX( ) * 128 + 64 ) - x) * delta * 70)*((7+rand)/10);
+					x += (Math.signum((elevator.getX( ) * 128 + 64 ) - x) * delta * 70);
 					if (Math.abs((elevator.getX()*128 + 64) - x) < 5.0f)
 						setY( target.getY() );
 				}
@@ -102,16 +102,17 @@ public class Guest
 						}
 						else if(target.getRoomType() == RoomType.ROOM_RESTURANT)
 						{
+							System.out.println("Target is resturant");
 							if(time < 6 || time > 20 || (time > 9 && time < 11) || (time > 13.5 && time < 17))
 							{
+								System.out.println("Going to hotel room");
 								goToHotelRoom();
 							}
 						}
 					}
 					else
 					{
-						int rand = (int)(Math.random()*3);
-						x += (Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70)*((7+rand)/10);
+						x += (Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70);
 					}
 				}
 			}
