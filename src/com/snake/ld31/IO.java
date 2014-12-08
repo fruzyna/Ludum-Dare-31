@@ -160,7 +160,6 @@ public class IO
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		saveConfig();
 		
 	}
 	

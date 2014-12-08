@@ -24,8 +24,11 @@ public class MainMenu extends View
 		
 		String gameName = "TOWER GAME";
 		String tell = "Press ENTER to Play!";
+		String res = "Press X and +/- to adjust the width and Y and +/- to adjust the height";
 		draw.setFont(new Font("Arial", Font.PLAIN, 40));
 		draw.drawString(gameName, Main.instance.centerText(gameName, draw), 100);
+		draw.setFont(new Font("Arial", Font.PLAIN, 20));
+		draw.drawString(res, Main.instance.centerText(res, draw), 475);
 		
 		long currentTime = System.currentTimeMillis();
 		if(currentTime - lastChange > 750)

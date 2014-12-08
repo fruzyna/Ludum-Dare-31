@@ -40,6 +40,9 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 	private Thread thread;
 	private boolean running = true;
 	
+	private boolean adjustX;
+	private boolean adjustY;
+	
 	private long lastTickTime = System.currentTimeMillis();
 	
 	public static void main( String[] args )
@@ -86,6 +89,7 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 			@Override
 			public void windowClosing(WindowEvent e)
 			{
+				IO.saveConfig();
 				IO.saveSave();
 				running = false;
 			}
@@ -224,15 +228,61 @@ public class Main implements KeyListener, Runnable, MouseListener, MouseMotionLi
 	}
 	
 	@Override
-	public void keyPressed(KeyEvent arg0)
+	public void keyPressed(KeyEvent e)
 	{
-		currentView.keyPressed(arg0);
+		if(e.getKeyCode() == KeyEvent.VK_X)
+		{
+			adjustX = true;
+			adjustY = false;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_Y)
+		{
+			adjustY = true;
+			adjustX = false;
+		}
+		currentView.keyPressed(e);
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0)
+	public void keyReleased(KeyEvent e)
 	{
-		currentView.keyReleased(arg0);
+		if(e.getKeyCode() == KeyEvent.VK_X)
+		{
+			adjustX = false;
+			adjustY = false;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_Y)
+		{
+			adjustY = false;
+			adjustX = false;
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_ADD || e.getKeyCode() == KeyEvent.VK_PLUS)
+		{
+			if(adjustX)
+			{
+				frame.setSize(new Dimension(getScrWidth() + 50, getScrHeight()));
+				DataContainer.xres += 50;
+			}
+			else if(adjustY)
+			{
+				frame.setSize(new Dimension(getScrWidth(), getScrHeight() + 50));
+				DataContainer.yres += 50;
+			}
+		}
+		else if(e.getKeyCode() == KeyEvent.VK_MINUS || e.getKeyCode() == KeyEvent.VK_SUBTRACT)
+		{
+			if(adjustX)
+			{
+				frame.setSize(new Dimension(getScrWidth() - 50, getScrHeight()));
+				DataContainer.xres -= 50;
+			}
+			else if(adjustY)
+			{
+				frame.setSize(new Dimension(getScrWidth(), getScrHeight() - 50));
+				DataContainer.yres -= 50;
+			}
+		}
+		currentView.keyReleased(e);
 	}
 
 	@Override
