@@ -18,11 +18,12 @@ public class Logo extends View
 	@Override
 	public void draw(Graphics2D draw)
 	{
-		draw.setColor( Color.red );
+		draw.setColor( Color.RED );
 		draw.fillRect( 0, 0, Main.instance.getScrWidth( ), Main.instance.getScrHeight( ) );
 		
 		draw.drawImage(img, Main.instance.getScrWidth( )/2 - img.getWidth( )/2, Main.instance.getScrHeight( )/2 - img.getHeight( )/2, null );
 		draw.setFont(new Font("TimesRoman", Font.PLAIN, 40));
+		draw.setColor( Color.BLACK);
 		draw.drawString("Presents", Main.instance.centerText("Presents", draw), 100);
 	}
 
