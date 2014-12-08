@@ -77,7 +77,8 @@ public class Guest
 			{
 				if (elevator != null && getY() != target.getY())
 				{
-					x += Math.signum((elevator.getX( ) * 128 + 64 ) - x) * delta * 70;
+					int rand = (int)(Math.random()*3);
+					x += (Math.signum((elevator.getX( ) * 128 + 64 ) - x) * delta * 70)*((7+rand)/10);
 					if (Math.abs((elevator.getX()*128 + 64) - x) < 5.0f)
 						setY( target.getY() );
 				}
@@ -98,19 +99,19 @@ public class Guest
 								if (rand == 69)
 									goToRestaurant( );
 							}
-							else
-							{
-								goToHotelRoom();
-							}
 						}
 					}
 					else
-						x += Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70;
+					{
+						int rand = (int)(Math.random()*3);
+						x += (Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70)*((7+rand)/10);
+					}
 				}
-			}
-			if(DataContainer.hours >= 21)
-			{
-				goToHotelRoom();
+				double time = DataContainer.hours;
+				if(time < 6 || time > 20 || (time > 9 && time < 11) || (time > 13.5 && time < 17))
+				{
+					goToHotelRoom();
+				}
 			}
 		}
 		
