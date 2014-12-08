@@ -207,6 +207,29 @@ public class Game extends View
 			guests.get(i).onDraw( draw );
 		}
 		
+		if (selectedIcon == 8)
+		{
+			for (int i=0;i < DataContainer.drenthlist.size( );++i)
+			{
+				Color c = new Color(255, 255, 0, 128);
+				Room r = DataContainer.drenthlist.get( i );
+				
+				draw.setColor( c );
+				draw.fillRect( (int)Main.camera.getRasterX( (r.getX( ) - 2 ) * 128 ), (int)Main.camera.getRasterY( (r.getY( ) - 2)* 128 ), (int)(640.0f * Main.camera.getScale( )), (int)(640.0f * Main.camera.getScale( )) );
+			}
+		}
+		else if (selectedIcon == 9)
+		{
+			for (int i=0;i < DataContainer.plumbinglist.size( );++i)
+			{
+				Color c = new Color(0, 0, 255, 128);
+				Room r = DataContainer.plumbinglist.get( i );
+				
+				draw.setColor( c );
+				draw.fillRect( (int)Main.camera.getRasterX( (r.getX( ) - 2 ) * 128 ), (int)Main.camera.getRasterY( (r.getY( ) - 2)* 128 ), (int)(640.0f * Main.camera.getScale( )), (int)(640.0f * Main.camera.getScale( )) );
+			}
+		}
+		
 		if (selectedIcon != -1)
 		{
 			int localX, localY;
@@ -446,6 +469,8 @@ public class Game extends View
 		Main.camera.scale = 1.0f;
 		
 		openHotels = new Vector<Room>( );
+		DataContainer.drenthlist = new Vector<Room>( );
+		DataContainer.plumbinglist = new Vector<Room>( );
 		
 		if (!DataContainer.loaded)
 		{
@@ -492,7 +517,11 @@ public class Game extends View
 				{
 					RoomType t = DataContainer.rooms[x][y].getRoomType( );
 					
-					if (t == RoomType.ROOM_HOTEL)
+					if (t == RoomType.ROOM_DRENTH)
+						DataContainer.drenthlist.add( DataContainer.rooms[x][y] );
+					else if (t == RoomType.ROOM_PLUMBING)
+						DataContainer.plumbinglist.add( DataContainer.rooms[x][y]);
+					else if (t == RoomType.ROOM_HOTEL)
 						guestTarget++;
 					else
 						continue;
@@ -514,14 +543,10 @@ public class Game extends View
 						openHotels.add( DataContainer.rooms[x][y] );
 				}
 			}
-			
-			System.out.println("guest target is " + guestTarget);
 		}
 		
 		guests = DataContainer.guests;
 		lastGuestAdded = 0;
-		
-		System.out.println("currently " + guests.size() + " guests");
 		
 		updateViewBounds( );
 		Main.camera.set( );
@@ -549,7 +574,7 @@ public class Game extends View
         {        	
         	for (int i=0;i < numIcons;++i)
         	{
-        		if (Main.mouseX >= (15 + 80*i) && Main.mouseX <= (79 + 80*i))
+        		if (Main.mouseX >= (15 + 80*i) && Main.mouseX <= (79 + 80*i) && (icons[i*2] != null))
         		{	
         			iconScale[i] = 0.0f;
         			
@@ -586,6 +611,11 @@ public class Game extends View
 							DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_GRASS );
 						else
 						{
+							if (t == RoomType.ROOM_DRENTH)
+								DataContainer.drenthlist.remove( DataContainer.rooms[gridX][gridY] );
+							else if (t == RoomType.ROOM_PLUMBING)
+								DataContainer.plumbinglist.remove( DataContainer.rooms[gridX][gridY] );
+							
 							if (gridY != 0 && DataContainer.rooms[gridX][gridY-1].getRoomType( ) != RoomType.ROOM_AIR)
 								DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 							else
@@ -660,6 +690,8 @@ public class Game extends View
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
 					DataContainer.money -= 100;
+					
+					DataContainer.drenthlist.add( DataContainer.rooms[gridX][gridY] );
 				}
 				
 				updateViewBounds( );
@@ -669,6 +701,8 @@ public class Game extends View
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
 					DataContainer.money -= 100;
+					
+					DataContainer.plumbinglist.add( DataContainer.rooms[gridX][gridY] );
 				}
 				
 				updateViewBounds( );

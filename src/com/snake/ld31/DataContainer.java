@@ -13,6 +13,9 @@ public class DataContainer
 	public static Room[][] rooms;
 	public static Vector<Guest> guests;
 	
+	public static Vector<Room> drenthlist;
+	public static Vector<Room> plumbinglist;
+	
 	public static double money;
 	
 	public static double hours;
