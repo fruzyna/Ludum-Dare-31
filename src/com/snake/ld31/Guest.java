@@ -114,6 +114,12 @@ public class Guest
 								goToHotelRoom();
 							}
 						}
+						else if(target.getRoomType() == RoomType.ROOM_SHOP)
+						{
+							int rand = (int)(Math.random()*500);
+							if (rand == 69)
+								goToHotelRoom( );
+						}
 					}
 					else
 					{
