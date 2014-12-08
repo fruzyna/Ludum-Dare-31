@@ -627,7 +627,7 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 1: //lobby
-				if (DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR && gridY == 60 && DataContainer.money >= 50)
+				if ((DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR || DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_BEAMS) && gridY == 60 && DataContainer.money >= 50)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_LOBBYEXT );
 					DataContainer.money -= 50;
