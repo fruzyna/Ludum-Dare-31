@@ -62,7 +62,7 @@ public class Guest
 		{
 			double time = DataContainer.hours;
 			DataContainer.money += .001;
-			if (hotelRoom.getRoomType() != RoomType.ROOM_HOTEL && !leaving)
+			if ((hotelRoom.getRoomType() != RoomType.ROOM_HOTEL || !hotelRoom.hasUtilities()) && !leaving)
 			{
 				leave( );
 			}
@@ -216,7 +216,7 @@ public class Guest
 		{
 			for (int y=0;y < DataContainer.worldHeight;++y)
 			{
-				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_RESTURANT)
+				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_RESTURANT && DataContainer.rooms[x][y].hasUtilities())
 					restaurants.add( DataContainer.rooms[x][y] );
 			}
 		}
@@ -236,7 +236,7 @@ public class Guest
 		{
 			for (int y=0;y < DataContainer.worldHeight;++y)
 			{
-				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_SHOP)
+				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_SHOP && DataContainer.rooms[x][y].hasUtilities())
 					shops.add( DataContainer.rooms[x][y] );
 			}
 		}

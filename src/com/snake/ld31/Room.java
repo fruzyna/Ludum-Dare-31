@@ -38,4 +38,45 @@ public class Room
 	{
 		return roomType;
 	}
+	
+	public boolean hasUtilities( )
+	{
+		if (DataContainer.drenthlist.size( ) == 0)
+			return false;
+		
+		if (DataContainer.plumbinglist.size( ) == 0)
+			return false;
+		
+		boolean water, electricity;
+		water = false;
+		electricity = false;
+		
+		for (int i=0;i < DataContainer.drenthlist.size( );++i)
+		{
+			int x,y;
+			x = DataContainer.drenthlist.get(i).getX( );
+			y = DataContainer.drenthlist.get(i).getY( );
+			
+			if (getX() >= x-5 && getX() <= x+5 && getY() >= y-5 && getY() <= y+5)
+			{
+				electricity = true;
+				break;
+			}
+		}
+		
+		for (int i=0;i < DataContainer.plumbinglist.size( );++i)
+		{
+			int x,y;
+			x = DataContainer.plumbinglist.get(i).getX( );
+			y = DataContainer.plumbinglist.get(i).getY( );
+			
+			if (getX() >= x-2 && getX() <= x+2 && getY() >= y-2 && getY() <= y+2)
+			{
+				water = true;
+				break;
+			}
+		}
+		
+		return (water && electricity);
+	}
 }

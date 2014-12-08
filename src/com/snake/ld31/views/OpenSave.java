@@ -42,7 +42,7 @@ public class OpenSave extends View
 		{
 			DataContainer.worldHeight = 10;
 			DataContainer.worldWidth = 10;
-			DataContainer.money = 1500;
+			DataContainer.money = 3000;
 			DataContainer.worldName = "temp name";
 			Main.instance.startGame();
 		}
