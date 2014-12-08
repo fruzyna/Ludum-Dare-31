@@ -223,7 +223,7 @@ public class Game extends View
 			for (int i=0;i < DataContainer.plumbinglist.size( );++i)
 			{
 				Color c = new Color(0, 0, 255, 128);
-				Room r = DataContainer.drenthlist.get( i );
+				Room r = DataContainer.plumbinglist.get( i );
 				
 				draw.setColor( c );
 				draw.fillRect( (int)Main.camera.getRasterX( (r.getX( ) - 2 ) * 128 ), (int)Main.camera.getRasterY( (r.getY( ) - 2)* 128 ), (int)(640.0f * Main.camera.getScale( )), (int)(640.0f * Main.camera.getScale( )) );
@@ -543,16 +543,10 @@ public class Game extends View
 						openHotels.add( DataContainer.rooms[x][y] );
 				}
 			}
-			
-			System.out.println("guest target is " + guestTarget);
 		}
-		
-		System.out.println( "drenthlist" + DataContainer.drenthlist.size( ) );
 		
 		guests = DataContainer.guests;
 		lastGuestAdded = 0;
-		
-		System.out.println("currently " + guests.size() + " guests");
 		
 		updateViewBounds( );
 		Main.camera.set( );
@@ -580,7 +574,7 @@ public class Game extends View
         {        	
         	for (int i=0;i < numIcons;++i)
         	{
-        		if (Main.mouseX >= (15 + 80*i) && Main.mouseX <= (79 + 80*i))
+        		if (Main.mouseX >= (15 + 80*i) && Main.mouseX <= (79 + 80*i) && (icons[i*2] != null))
         		{	
         			iconScale[i] = 0.0f;
         			
