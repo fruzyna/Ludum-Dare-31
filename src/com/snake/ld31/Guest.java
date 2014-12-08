@@ -116,7 +116,8 @@ public class Guest
 						}
 						else if(target.getRoomType() == RoomType.ROOM_SHOP)
 						{
-							int rand = (int)(Math.random()*500);
+							//1 in 1,000 chance to leave the store
+							int rand = (int)(Math.random()*1000);
 							if (rand == 69)
 								goToHotelRoom( );
 						}
