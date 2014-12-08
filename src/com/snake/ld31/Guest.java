@@ -97,14 +97,25 @@ public class Guest
 								//1 in 10,000 chance to eat during appropriate times
 								int rand = (int)(Math.random()*10000);
 								if (rand == 69)
+								{
 									goToRestaurant( );
+									//you make a random amount of money up to $15
+									int income = (int)(Math.random()*15);
+									DataContainer.money += income;
+								}
 							}
 							else if(time > 9)
 							{
 								//1 in 50,000 chance to shop after breakfast
 								int rand = (int)(Math.random()*50000);
 								if (rand == 69)
-									goToRestaurant( );
+								{
+									goToShop( );
+									//you make a random amount of money from $10 to $50
+									int income = (int)(Math.random()*40);
+									income += 10;
+									DataContainer.money += income;
+								}
 							}
 						}
 						else if(target.getRoomType() == RoomType.ROOM_RESTURANT)
