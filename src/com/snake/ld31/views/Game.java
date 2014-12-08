@@ -641,7 +641,7 @@ public class Game extends View
 			case 6: //theatre
 				if ( canBeRoom(gridX, gridY) )
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_THEATRE );
-				
+					DataContainer.money -= 500;
 				updateViewBounds( );
 				break;
 			case 7: //shop

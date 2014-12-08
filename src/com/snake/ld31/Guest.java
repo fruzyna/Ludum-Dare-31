@@ -196,8 +196,18 @@ public class Guest
 		elevator = findNearestElevator( r.getY( ) );
 		target = r;
 	}
-	
+
 	public void goToShop( )
+	{
+		Room r = findShop( );
+		
+		if (r == null)
+			return;
+		
+		elevator = findNearestElevator( r.getY( ) );
+		target = r;
+	}
+	public void goToTheater( )
 	{
 		Room r = findShop( );
 		
