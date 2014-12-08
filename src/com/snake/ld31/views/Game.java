@@ -614,7 +614,7 @@ public class Game extends View
 				updateViewBounds();
 				break;
 			case 3: //hotel
-				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 100)
+				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 200)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_HOTEL );
 					DataContainer.money -= 200;
@@ -624,7 +624,7 @@ public class Game extends View
 				addGuest( DataContainer.rooms[gridX][gridY] );
 				break;
 			case 4: //resturant
-				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 150)
+				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 250)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_RESTURANT );
 					DataContainer.money -= 250;
@@ -645,7 +645,7 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 7: //shop
-				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 200)
+				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 300)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_SHOP );
 					DataContainer.money -= 300;
@@ -654,7 +654,7 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 8: //drenth
-				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 50)
+				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 100)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
 					DataContainer.money -= 100;
@@ -663,7 +663,7 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 9: //plumbing
-				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 50)
+				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 100)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
 					DataContainer.money -= 100;
