@@ -109,6 +109,13 @@ public class Guest
 									income += 10;
 									DataContainer.money += income;
 								}
+								//1 in 10,000 chance to see a flick after breakfast
+								rand = (int)(Math.random()*10000);
+								if (rand == 69)
+								{
+									goToTheater( );
+									DataContainer.money += 15;
+								}
 							}
 						}
 						else if(target.getRoomType() == RoomType.ROOM_RESTURANT)
@@ -122,6 +129,13 @@ public class Guest
 						{
 							//1 in 1,000 chance to leave the store
 							int rand = (int)(Math.random()*1000);
+							if (rand == 69)
+								goToHotelRoom( );
+						}
+						else if(target.getRoomType() == RoomType.ROOM_THEATER)
+						{
+							//1 in 5,000 chance to leave the theater
+							int rand = (int)(Math.random()*5000);
 							if (rand == 69)
 								goToHotelRoom( );
 						}
@@ -195,10 +209,20 @@ public class Guest
 		elevator = findNearestElevator( r.getY( ) );
 		target = r;
 	}
-	
+
 	public void goToShop( )
 	{
 		Room r = findShop( );
+		
+		if (r == null)
+			return;
+		
+		elevator = findNearestElevator( r.getY( ) );
+		target = r;
+	}
+	public void goToTheater( )
+	{
+		Room r = findTheater( );
 		
 		if (r == null)
 			return;
@@ -226,7 +250,7 @@ public class Guest
 		
 		return restaurants.elementAt( Main.rnd.nextInt( restaurants.size() ) );
 	}
-	
+
 	//gets a random shop
 	private Room findShop( )
 	{
@@ -245,6 +269,26 @@ public class Guest
 			return null;
 		
 		return shops.elementAt( Main.rnd.nextInt( shops.size() ) );
+	}
+	
+	//gets a random shop
+	private Room findTheater( )
+	{
+		Vector<Room> theaters = new Vector<Room>( );
+		
+		for (int x=0;x < DataContainer.worldWidth;++x)
+		{
+			for (int y=0;y < DataContainer.worldHeight;++y)
+			{
+				if (DataContainer.rooms[x][y].getRoomType() == RoomType.ROOM_THEATER)
+					theaters.add( DataContainer.rooms[x][y] );
+			}
+		}
+		
+		if (theaters.isEmpty())
+			return null;
+		
+		return theaters.elementAt( Main.rnd.nextInt( theaters.size() ) );
 	}
 	
 	private Room findNearestElevator( int targetFloor )
