@@ -86,18 +86,25 @@ public class Guest
 				{
 					if (Math.abs((target.getX()*128 + 64) - x) < 5.0f)
 					{
+						double time = DataContainer.hours;
 						if (leaving)
 						{
 							delete = true;
 						}
 						else if (target.getRoomType() == RoomType.ROOM_HOTEL)
 						{
-							double time = DataContainer.hours;
 							if((time > 11 && time < 13.5) || (time > 6 && time < 9) || (time > 17 && time < 20) )
 							{
 								int rand = (int)(Math.random()*10000);
 								if (rand == 69)
 									goToRestaurant( );
+							}
+						}
+						else if(target.getRoomType() == RoomType.ROOM_RESTURANT)
+						{
+							if(time < 6 || time > 20 || (time > 9 && time < 11) || (time > 13.5 && time < 17))
+							{
+								goToHotelRoom();
 							}
 						}
 					}
@@ -106,11 +113,6 @@ public class Guest
 						int rand = (int)(Math.random()*3);
 						x += (Math.signum((target.getX( ) * 128 + 64 ) - x) * delta * 70)*((7+rand)/10);
 					}
-				}
-				double time = DataContainer.hours;
-				if(time < 6 || time > 20 || (time > 9 && time < 11) || (time > 13.5 && time < 17))
-				{
-					goToHotelRoom();
 				}
 			}
 		}
