@@ -15,8 +15,6 @@ public class Guest
 	private Room target;
 	private Room elevator;
 	
-	private float hunger, entertainment, sleep;
-	
 	private long checkInTime;
 	private float feet;
 	
@@ -35,10 +33,6 @@ public class Guest
 		this.hotelRoom = hotelRoom;
 		target = null;
 		elevator = null;
-		
-		hunger = Main.rnd.nextInt(50);
-		entertainment = Main.rnd.nextInt(50);
-		sleep = Main.rnd.nextInt(50);
 		
 		face = new Color( Color.HSBtoRGB( (Main.rnd.nextFloat() * 0.12f) + 0.12f , (Main.rnd.nextFloat() * 0.6f) + 0.4f, (Main.rnd.nextFloat( ) * 0.7f) + 0.3f ) );
 		top = new Color( Main.rnd.nextInt(255), Main.rnd.nextInt(255), Main.rnd.nextInt(255) );
@@ -99,8 +93,8 @@ public class Guest
 								if (rand == 69)
 								{
 									goToRestaurant( );
-									//you make a random amount of money up to $15
-									int income = (int)(Math.random()*15);
+									//you make a random amount of money up to $40
+									int income = (int)(Math.random()*40);
 									DataContainer.money += income;
 								}
 							}
@@ -111,8 +105,8 @@ public class Guest
 								if (rand == 69)
 								{
 									goToShop( );
-									//you make a random amount of money from $10 to $50
-									int income = (int)(Math.random()*40);
+									//you make a random amount of money from $10 to $90
+									int income = (int)(Math.random()*80);
 									income += 10;
 									DataContainer.money += income;
 								}
