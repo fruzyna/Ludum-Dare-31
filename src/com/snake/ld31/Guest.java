@@ -64,8 +64,7 @@ public class Guest
 			DataContainer.money += .001;
 			if (hotelRoom.getRoomType() != RoomType.ROOM_HOTEL && !leaving)
 			{
-				target = DataContainer.rooms[DataContainer.worldWidth-1][60];
-				leaving = true;
+				leave( );
 			}
 			
 			if (target != null)
@@ -139,7 +138,7 @@ public class Guest
 				//1 in 50,000 to leave if there is no food
 				int rand = (int)(Math.random()*50000);
 				if (rand == 69)
-					leaving = true;
+					leave( );
 			}
 			
 			if(findShop() == null)
@@ -147,7 +146,7 @@ public class Guest
 				//1 in 100,000 to leave if there is no shop
 				int rand = (int)(Math.random()*100000);
 				if (rand == 69)
-					leaving = true;
+					leave( );
 			}
 			
 			if(time > 22)
@@ -172,6 +171,12 @@ public class Guest
 	public void setY( int y )
 	{
 		floor = 60 - y;
+	}
+	
+	public void leave( )
+	{
+		target = DataContainer.rooms[DataContainer.worldWidth-1][60];
+		leaving = true;
 	}
 	
 	public void goToHotelRoom( )
