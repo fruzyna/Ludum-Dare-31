@@ -617,7 +617,7 @@ public class Game extends View
 				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 100)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_HOTEL );
-					DataContainer.money -= 100;
+					DataContainer.money -= 200;
 				}
 				
 				updateViewBounds( );
@@ -627,7 +627,7 @@ public class Game extends View
 				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 150)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_RESTURANT );
-					DataContainer.money -= 150;
+					DataContainer.money -= 250;
 				}
 				
 				updateViewBounds( );
@@ -648,7 +648,7 @@ public class Game extends View
 				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 200)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_SHOP );
-					DataContainer.money -= 200;
+					DataContainer.money -= 300;
 				}
 				
 				updateViewBounds( );
@@ -657,7 +657,7 @@ public class Game extends View
 				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 50)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_DRENTH );
-					DataContainer.money -= 50;
+					DataContainer.money -= 100;
 				}
 				
 				updateViewBounds( );
@@ -666,7 +666,7 @@ public class Game extends View
 				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 50)
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_PLUMBING );
-					DataContainer.money -= 50;
+					DataContainer.money -= 100;
 				}
 				
 				updateViewBounds( );
@@ -687,6 +687,7 @@ public class Game extends View
 				if (DataContainer.rooms[gridX][gridY].getRoomType() == RoomType.ROOM_AIR)
 				{
 					if ( DataContainer.rooms[gridX][gridY + 1].getRoomType() != RoomType.ROOM_AIR )
+						
 						DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_BEAMS );
 				
 					if ( gridX != DataContainer.worldWidth && DataContainer.rooms[gridX+1][gridY].getRoomType() != RoomType.ROOM_AIR )
