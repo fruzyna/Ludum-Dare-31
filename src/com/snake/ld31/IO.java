@@ -32,7 +32,7 @@ public class IO
 		}
 		else
 		{
-			DataContainer.xres = 1024;
+			DataContainer.xres = 1280;
 			DataContainer.yres = 768;
 		}
 	}

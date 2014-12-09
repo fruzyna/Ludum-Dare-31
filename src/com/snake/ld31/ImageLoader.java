@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class ImageLoader
 {
-	private final String baseDirectory = "res/";
+	private final String baseDirectory = "/res/";
 	private Vector<BitmapNode> BufferedImages = new Vector<BitmapNode>();
 	
 	private int fileIsLoaded( String filename )
@@ -55,7 +55,7 @@ public class ImageLoader
 			
 			try 
 			{		
-				imgData = ImageIO.read( new File( filename ) );
+				imgData = javax.imageio.ImageIO.read( Main.class.getResource(filename) );
 			} 
 			catch (Exception e) 
 			{
