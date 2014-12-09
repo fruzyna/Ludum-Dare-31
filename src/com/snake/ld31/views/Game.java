@@ -663,7 +663,7 @@ public class Game extends View
 				updateViewBounds( );
 				break;
 			case 5: //theater
-				if ( canBeRoom(gridX, gridY) )
+				if ( canBeRoom(gridX, gridY) && DataContainer.money >= 500 )
 				{
 					DataContainer.rooms[gridX][gridY].setType( RoomType.ROOM_THEATER);
 					DataContainer.money -= 500;
